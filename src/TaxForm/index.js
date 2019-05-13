@@ -11,7 +11,7 @@ const initialState = {
   transactions: [
     {
       date: '',
-      amount: 0,
+      amount: undefined,
     },
   ],
 }
