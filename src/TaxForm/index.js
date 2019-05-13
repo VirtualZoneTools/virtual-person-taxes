@@ -121,15 +121,17 @@ const TaxForm = ({ onSubmit }) => {
                           required
                         />
 
-                        <Button
-                          type="button"
-                          appearance="primary"
-                          intent="danger"
-                          iconBefore="remove"
-                          onClick={() => arrayHelpers.remove(index)}
-                        >
-                          ტრანზაქციის წაშლა
-                        </Button>
+                        {values.transactions.length > 1 && (
+                          <Button
+                            type="button"
+                            appearance="primary"
+                            intent="danger"
+                            iconBefore="remove"
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            ტრანზაქციის წაშლა
+                          </Button>
+                        )}
                       </Pane>
                     ))}
                   <Button
