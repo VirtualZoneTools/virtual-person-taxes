@@ -4,11 +4,10 @@ import * as Yup from 'yup'
 import { Button, Pane, Paragraph } from 'evergreen-ui'
 
 import TaxFormInput from './Input'
+import { getReusableData, setReusableData } from '../saveReusableData'
 
 const initialState = {
-  fullName: '',
-  address: '',
-  personalNumber: '',
+  ...getReusableData(),
   transactions: [
     {
       date: '',
@@ -43,13 +42,14 @@ const Schema = Yup.object().shape({
   ),
 })
 
-const TaxForm = () => {
+const TaxForm = ({ onSubmit }) => {
   return (
     <div>
       <Formik
         initialValues={initialState}
         onSubmit={(values, actions) => {
-          console.log(values)
+          setReusableData(values)
+          onSubmit(values)
           actions.setSubmitting(false)
         }}
         validationSchema={Schema}
@@ -148,7 +148,7 @@ const TaxForm = () => {
             <br />
             {status && status.msg && <div>{status.msg}</div>}
             <Button appearance="primary" type="submit" disabled={isSubmitting || !isValid}>
-              ინსტრუქციების გენერაცია
+              ინსტრუქციების დაგენერირება
             </Button>
           </Form>
         )}

@@ -8,5 +8,5 @@ body {
 }
 
 .App {
-  padding: 15px;
+  display: flex;
 }
