@@ -2,8 +2,6 @@ import React from 'react'
 import { TextInputField } from 'evergreen-ui'
 import get from 'lodash.get'
 
-import './Input.css'
-
 const TaxFormInput = ({
   field, // { name, value, onChange, onBlur }
   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
@@ -11,6 +9,7 @@ const TaxFormInput = ({
 }) => (
   <div className="Input-wrapper">
     <TextInputField
+      marginBottom="15px"
       type="text"
       {...field}
       {...props}
