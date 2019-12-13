@@ -28,7 +28,7 @@ const generate = function({ fullName, address, personalNumber, transactions }) {
     .join('\n')
   return `
 # მიმოხილვა
-ტრანხაქციები რომლის დეკლარირებასაც ვახდენთ:
+ტრანზაქციები რომლის დეკლარირებასაც ვახდენთ:
 
 ${transactionOverviewStr}
 
