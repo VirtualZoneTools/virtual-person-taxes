@@ -1,3 +1,3 @@
 ### Deploying
 
-`yarn deploy`
+`npm run deploy`
