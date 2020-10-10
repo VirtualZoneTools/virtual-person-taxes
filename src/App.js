@@ -6,7 +6,7 @@ import Preview from './Preview'
 import generateStepsMD from './generator'
 
 function App() {
-  const [md, setMd] = useState(-)
+  const [md, setMd] = useState()
 
   return (
     <Pane background="tint2" minHeight="100vh" padding="30px">
