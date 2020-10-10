@@ -1,15 +1,22 @@
 {
   "files": {
-    "main.css": "/virtual-person-taxes/static/css/main.e96fa48c.chunk.css",
-    "main.js": "/virtual-person-taxes/static/js/main.eedf478b.chunk.js",
-    "main.js.map": "/virtual-person-taxes/static/js/main.eedf478b.chunk.js.map",
-    "runtime~main.js": "/virtual-person-taxes/static/js/runtime~main.448d44c8.js",
-    "runtime~main.js.map": "/virtual-person-taxes/static/js/runtime~main.448d44c8.js.map",
-    "static/js/2.09775455.chunk.js": "/virtual-person-taxes/static/js/2.09775455.chunk.js",
-    "static/js/2.09775455.chunk.js.map": "/virtual-person-taxes/static/js/2.09775455.chunk.js.map",
+    "main.css": "/virtual-person-taxes/static/css/main.f9624004.chunk.css",
+    "main.js": "/virtual-person-taxes/static/js/main.d7202736.chunk.js",
+    "main.js.map": "/virtual-person-taxes/static/js/main.d7202736.chunk.js.map",
+    "runtime-main.js": "/virtual-person-taxes/static/js/runtime-main.f0cbb246.js",
+    "runtime-main.js.map": "/virtual-person-taxes/static/js/runtime-main.f0cbb246.js.map",
+    "static/js/2.c8c30287.chunk.js": "/virtual-person-taxes/static/js/2.c8c30287.chunk.js",
+    "static/js/2.c8c30287.chunk.js.map": "/virtual-person-taxes/static/js/2.c8c30287.chunk.js.map",
     "index.html": "/virtual-person-taxes/index.html",
-    "precache-manifest.38f4fc4b292aa43242a4cc0c01e0b41e.js": "/virtual-person-taxes/precache-manifest.38f4fc4b292aa43242a4cc0c01e0b41e.js",
+    "precache-manifest.a390aba1c833a8e65e87d69276c64e77.js": "/virtual-person-taxes/precache-manifest.a390aba1c833a8e65e87d69276c64e77.js",
     "service-worker.js": "/virtual-person-taxes/service-worker.js",
-    "static/css/main.e96fa48c.chunk.css.map": "/virtual-person-taxes/static/css/main.e96fa48c.chunk.css.map"
-  }
+    "static/css/main.f9624004.chunk.css.map": "/virtual-person-taxes/static/css/main.f9624004.chunk.css.map",
+    "static/js/2.c8c30287.chunk.js.LICENSE.txt": "/virtual-person-taxes/static/js/2.c8c30287.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f0cbb246.js",
+    "static/js/2.c8c30287.chunk.js",
+    "static/css/main.f9624004.chunk.css",
+    "static/js/main.d7202736.chunk.js"
+  ]
 }
