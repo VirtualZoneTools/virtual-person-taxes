@@ -1,34 +1,41 @@
 import React, { useState } from 'react'
-import { Pane } from 'evergreen-ui'
+import { Pane, Card, Heading, Button, EditIcon } from 'evergreen-ui'
 
 import TaxForm from './TaxForm'
 import Preview from './Preview'
-import useMedia from './useMedia'
 import generateStepsMD from './generator'
 
 function App() {
-  const [md, setMd] = useState(`### ინსტრუქციები გამოჩნდება აქ მას შემდეგ რაც ფორმას შეავსებთ`)
-  const [col1, col2, overflow, flexWrap] = useMedia(
-    ['(max-width: 768px)'],
-    [['100%', '100%', 'auto', 'wrap']],
-    ['40%', '60%', 'hidden', 'nowrap'],
-  )
+  const [md, setMd] = useState()
+
   return (
-    <Pane
-      className="App"
-      background="tint2"
-      overflow={overflow}
-      height="100vh"
-      width="100vw"
-      display="flex"
-      flexWrap={flexWrap}
-    >
-      <Pane flex={`0 0 ${col1}`} maxHeight="100%" padding="15px" overflow="auto">
-        <TaxForm onSubmit={values => setMd(generateStepsMD(values))} />
-      </Pane>
-      <Pane borderLeft flex={`0 0 ${col2}`} padding="15px" overflow="auto">
-        <Preview md={md} />
-      </Pane>
+    <Pane background="tint2" minHeight="100vh" padding="30px">
+      {md ? (
+        <Card elevation={2} marginX="auto" maxWidth="960px" padding="15px" background="white">
+          <Button iconBefore={EditIcon} appearance="minimal" onClick={() => setMd(null)}>
+            ფორმის ჩასწორება
+          </Button>
+
+          <Preview md={md} />
+        </Card>
+      ) : (
+        <Pane display="flex" flexDirection="column" alignItems="center">
+          <Heading size={400} marginBottom="15px">
+            ინსტრუქციის მისაღებად შეავსეთ ფორმა
+          </Heading>
+
+          <Card
+            elevation={2}
+            background="tint1"
+            padding="15px"
+            overflow="auto"
+            minWidth="360px"
+            maxWidth="600px"
+          >
+            <TaxForm onSubmit={values => setMd(generateStepsMD(values))} />
+          </Card>
+        </Pane>
+      )}
     </Pane>
   )
 }
