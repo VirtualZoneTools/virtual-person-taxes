@@ -35,7 +35,7 @@ const Schema = Yup.object().shape({
   transactions: Yup.array().of(
     Yup.object().shape({
       date: Yup.string()
-        .min(10, 'თარიღი უნდა იყოს DD/MM/YYYY ფორმატში')
+        .min(1, 'თარიღი უნდა იყოს DD/MM/YYYY ფორმატში')
         .required(messages.required()),
       amount: Yup.number().required(messages.required()),
     }),
