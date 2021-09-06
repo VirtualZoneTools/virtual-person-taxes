@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "dbf7b62a708a86622e9d6a19f45a706b",
+    "revision": "eee8ab0f1f871c64a4a1d0f0780a1e81",
     "url": "/virtual-person-taxes/index.html"
   },
   {
-    "revision": "e29f2a1dbe3cf4e58746",
+    "revision": "258f46964bcc4afab11a",
     "url": "/virtual-person-taxes/static/css/main.f9624004.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/virtual-person-taxes/static/js/2.c8c30287.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e29f2a1dbe3cf4e58746",
-    "url": "/virtual-person-taxes/static/js/main.d7202736.chunk.js"
+    "revision": "258f46964bcc4afab11a",
+    "url": "/virtual-person-taxes/static/js/main.d32e3763.chunk.js"
   },
   {
     "revision": "4b234dac8b27c1808182",
