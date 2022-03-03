@@ -1,15 +1,5 @@
 import React, { useRef, useState } from 'react'
-import {
-  Button,
-  Pane,
-  Card,
-  Heading,
-  Paragraph,
-  CrownIcon,
-  DeleteIcon,
-  AddIcon,
-  TrashIcon,
-} from 'evergreen-ui'
+import { Button, Pane, Card, Heading, CrownIcon, AddIcon, TrashIcon } from 'evergreen-ui'
 import * as Yup from 'yup'
 import { format, isValid, parse, sub } from 'date-fns'
 import { DayPicker } from 'react-day-picker'
