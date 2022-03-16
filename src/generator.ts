@@ -1,6 +1,14 @@
-const dividendTax = x => (x / 95) * 5
-const input = val => `<input value="${val}"/>`
-const generate = function({ fullName, address, personalNumber, transactions }) {
+const dividendTax = (x: number) => (x / 95) * 5
+const input = (val: string | number) => `<input value="${val}"/>`
+
+export interface State {
+  fullName: string
+  address: string
+  personalNumber: string
+  transactions: Array<any>
+}
+
+const generate = function ({ fullName, address, personalNumber, transactions }: State): string {
   const allDivident = transactions.reduce((acc, x) => acc + x.amount, 0)
   const allDividentTax = dividendTax(allDivident)
   const allDividentPlusTaxSum = allDivident + allDividentTax
@@ -47,7 +55,7 @@ ${transactionOverviewStr}
 1. დაკლიკე ღილაკზე **ახალი დეკლარაცია**
 1. ველში **ეკონომიკური საქმიანობის (NACE) კოდი სრულად** შეიყვანე **${input(
     62020,
-  )} (საკონსულტაციო საქმიანობები კომპიუტერული ტექნოლოგიების დარგში)** (მხოლოდ რიცხვის აკრეფა საკმარისია) 
+  )} (საკონსულტაციო საქმიანობები კომპიუტერული ტექნოლოგიების დარგში)** (მხოლოდ რიცხვის აკრეფა საკმარისია)
 1. **რეზიდენტი საწარმო** მონიშული დატოვე
 1. დააკლიკე დამატების ღილაკს, იკონით **+**
 1. ზემოთ დააჭირე ღილაკს **2** რათა გადახვიდე მეორე გვერდზე
@@ -67,7 +75,7 @@ ${transactionOverviewStr}
 1. **გადამხდელის ტიპი** აირჩიე **სხვა**
 1. ველში **ეკონომიკური საქმიანობის (NACE) კოდი სრულად** შეიყვანე **${input(
     62020,
-  )} (საკონსულტაციო საქმიანობები კომპიუტერული ტექნოლოგიების დარგში)** (მხოლოდ რიცხვის აკრეფა საკმარისია) 
+  )} (საკონსულტაციო საქმიანობები კომპიუტერული ტექნოლოგიების დარგში)** (მხოლოდ რიცხვის აკრეფა საკმარისია)
 1. დააკლიკე დამატების ღილაკს, იკონით **+**
 1. ზემოთ დააჭირე ღილაკს **2** რათა გადახვიდე მეორე გვერდზე
 ${transactionsDeclarationStepsStr}
