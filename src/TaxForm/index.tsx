@@ -9,20 +9,26 @@ import {
   VStack,
   IconButton,
   Tooltip,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  useDisclosure,
+  Stack,
 } from '@chakra-ui/react'
 import * as Yup from 'yup'
 import { format, isValid, parse, sub } from 'date-fns'
-import { usePopper } from 'react-popper'
-import FocusTrap from 'focus-trap-react'
 import { FiZap, FiPlusCircle, FiTrash2 } from 'react-icons/fi'
 import { useFieldArray, useForm, UseFormRegister } from 'react-hook-form'
-import { DayPicker, useInput } from 'react-day-picker'
+import { DayPicker } from 'react-day-picker'
+import FocusLock from 'react-focus-lock'
+
 import 'react-day-picker/dist/style.css'
 
+import { FormState } from '../App'
 import { getReusableData, setReusableData } from '../saveReusableData'
-import { State } from '../generator'
 
-const initialState: State = {
+const initialState: FormState = {
   ...getReusableData(),
   transactions: [
     {
@@ -55,12 +61,13 @@ const Schema = Yup.object().shape({
 })
 
 interface TaxFormProps {
+  data?: FormState
   onSubmit: (data: any) => void
 }
 
-const TaxForm: React.VFC<TaxFormProps> = ({ onSubmit }) => {
+const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
   const { control, register, handleSubmit } = useForm({
-    defaultValues: initialState,
+    defaultValues: data || initialState,
   })
   const {
     fields: transactions,
@@ -74,8 +81,8 @@ const TaxForm: React.VFC<TaxFormProps> = ({ onSubmit }) => {
   const handleSubmitForm = (values: any) => {
     console.log(values)
     // TODO: stuff...
-    // setReusableData(values)
-    // onSubmit(values)
+    setReusableData(values)
+    onSubmit(values)
   }
 
   // const handleInputChange = (e) => {
@@ -99,11 +106,10 @@ const TaxForm: React.VFC<TaxFormProps> = ({ onSubmit }) => {
   }
 
   // TODO: implement this.
-  // <Formik
-  //   validationSchema={Schema}
-  //   render={({ status, isSubmitting, isValid, values }) => (
+  // status, isSubmitting, isValid, values
+
   return (
-    <VStack as="form" spacing="4" onSubmit={handleSubmit(handleSubmitForm)}>
+    <Stack as="form" spacing="4" onSubmit={handleSubmit(handleSubmitForm)}>
       <FormControl>
         <FormLabel htmlFor="fullName">სახელი და გვარი</FormLabel>
         <Input
@@ -177,7 +183,7 @@ const TaxForm: React.VFC<TaxFormProps> = ({ onSubmit }) => {
           ინსტრუქციების გენერირება
         </Button>
       </Box>
-    </VStack>
+    </Stack>
   )
 }
 
@@ -187,7 +193,7 @@ interface TransactionProps {
   isLast: boolean
   onRemove: (index: number) => void
   onAppend: () => void
-  register: UseFormRegister<State>
+  register: UseFormRegister<FormState>
 }
 
 const Transaction: React.VFC<TransactionProps> = ({
@@ -195,44 +201,28 @@ const Transaction: React.VFC<TransactionProps> = ({
   isOnly,
   isLast,
   onRemove,
-  onAppend,
   register,
 }) => {
-  const [inputValue, setInputValue] = useState<string>('')
-  const [isPopperOpen, setIsPopperOpen] = useState<boolean>(false)
-  const [selected, setSelected] = useState<Date | null>(null)
+  const [selected, setSelected] = useState<Date>()
 
-  const popperRef = useRef()
-  const inputRef = useRef()
+  const { onOpen, onClose, isOpen } = useDisclosure()
 
-  const { inputProps: datePickerInputProps, dayPickerProps } = useInput()
-  const popper = usePopper(popperRef.current, inputRef.current, {
-    placement: 'top-start',
-  })
+  // const handleDaySelect = (date: Date) => {
+  //   setSelected(date)
 
-  const handleInputFocus = () => {
-    setIsPopperOpen(true)
-  }
-
-  const handleClosePopper = () => {
-    setIsPopperOpen(false)
-  }
-
-  const handleDaySelect = (date: Date) => {
-    setSelected(date)
-
-    if (date) {
-      setInputValue(format(date, 'y-MM-dd'))
-      handleClosePopper()
-    } else {
-      setInputValue('')
-    }
-  }
+  //   if (date) {
+  //     setInputValue(format(date, 'y-MM-dd'))
+  //   } else {
+  //     setInputValue('')
+  //   }
+  // }
 
   const dateInputFormProps = { ...register(`transactions.${index}.date`, { required: true }) }
 
   return (
     <Box
+      as={Stack}
+      spacing="4"
       width="full"
       borderWidth="1px"
       borderColor="gray.400"
@@ -263,64 +253,30 @@ const Transaction: React.VFC<TransactionProps> = ({
 
       <FormControl>
         <FormLabel htmlFor={`transactions.${index}.date`}>თარიღი</FormLabel>
-        <Input
-          placeholder="მაგ. 02/03/2019"
-          {...datePickerInputProps}
-          {...dateInputFormProps}
-          onChange={(e) => {
-            datePickerInputProps.onChange?.(e)
-            dateInputFormProps.onChange(e)
-          }}
-          onFocus={(e) => {
-            datePickerInputProps.onFocus?.(e)
-            handleInputFocus()
-          }}
-          onBlur={(e) => {
-            datePickerInputProps.onBlur?.(e)
-            dateInputFormProps.onBlur(e)
-          }}
-          value={inputValue}
-          backgroundColor="white"
-          border="none"
-          borderRadius="full"
-          size="sm"
-          color="gray.700"
-          fontSize="sm"
-          padding="0"
-          height="32px"
-          width="100%"
-          boxShadow="none"
-          // ref={inputRef}
-        />
-      </FormControl>
 
-      {isPopperOpen && (
-        <FocusTrap
-          active
-          focusTrapOptions={{
-            initialFocus: false,
-            allowOutsideClick: true,
-            clickOutsideDeactivates: true,
-            onDeactivate: handleClosePopper,
-          }}
+        <Popover
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onClose={onClose}
+          placement="right-end"
+          closeOnBlur={true}
         >
-          <Box
-            backgroundColor="white"
-            zIndex={4}
-            tabIndex={-1}
-            style={popper.styles.popper}
-            {...popper.attributes.popper}
-            role="dialog"
-          >
-            <DayPicker
-              initialFocus={isPopperOpen}
-              {...dayPickerProps}
-              // value={selected}
-              // onSelect={(date: Date) => handleDaySelect(date)}
-            />
-          </Box>
-        </FocusTrap>
-      )}
+          <PopoverTrigger>
+            <Input placeholder="მაგ. Mar 19, 2022" {...dateInputFormProps} />
+          </PopoverTrigger>
+          <PopoverContent boxShadow="lg">
+            <FocusLock returnFocus persistentFocus={false}>
+              <PopoverArrow />
+
+              <DayPicker
+                mode="single"
+                // {...dateInputFormProps}
+                selected={selected}
+              />
+            </FocusLock>
+          </PopoverContent>
+        </Popover>
+      </FormControl>
 
       <FormControl>
         <FormLabel htmlFor={`transactions.${index}.amount`}>დივიდენდის რაოდენობა</FormLabel>

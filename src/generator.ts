@@ -1,14 +1,9 @@
+import { FormState } from './App'
+
 const dividendTax = (x: number) => (x / 95) * 5
 const input = (val: string | number) => `<input value="${val}"/>`
 
-export interface State {
-  fullName: string
-  address: string
-  personalNumber: string
-  transactions: Array<any>
-}
-
-const generate = function ({ fullName, address, personalNumber, transactions }: State): string {
+const generate = function ({ fullName, address, personalNumber, transactions }: FormState): string {
   const allDivident = transactions.reduce((acc, x) => acc + x.amount, 0)
   const allDividentTax = dividendTax(allDivident)
   const allDividentPlusTaxSum = allDivident + allDividentTax
@@ -40,17 +35,24 @@ const generate = function ({ fullName, address, personalNumber, transactions }: 
 `.trim(),
     )
     .join('\n')
+
   return `
-# მიმოხილვა
+
+
+### მიმოხილვა
 ტრანზაქციები რომლის დეკლარირებასაც ვახდენთ:
 
 ${transactionOverviewStr}
 
-# დეკლარაციის შევსება
+---
+
+### დეკლარაციის შევსება
 1. გადადი გვერდზე eservices.rs.ge და გაიარე ავტორიზებას
 1. გადადი გვერდზე __დეკლარაციები__
 
-## მოგება
+---
+
+#### მოგება
 1. გადადი გვერდზე **ყოველთვიური > მოგების გადასახადი**
 1. დაკლიკე ღილაკზე **ახალი დეკლარაცია**
 1. ველში **ეკონომიკური საქმიანობის (NACE) კოდი სრულად** შეიყვანე **${input(
@@ -66,10 +68,14 @@ ${transactionOverviewStr}
 1. დასქროლე გვერდის ბოლოშ და დააჭირე ღილაკს **შენახვა**
 1. ასქროლე სულ ზემოთ და დააჭირე გათიშვის ღილაკს იკონით **x**
 
-##  განაცემთა ინფორმაცია
-*აღარ ივსება *01/01/2020*-დან.*
+---
 
-## საშემოსავლო
+####  განაცემთა ინფორმაცია
+> აღარ ივსება *01/01/2020*-დან.
+
+---
+
+#### საშემოსავლო
 1. გადავდივართ გვერდზე **ყოველთვიური > საშემოსავლო (გადახდის წყაროსთან დაკავებული გადასახადი)**
 1. დაკლიკე ღილაკზე **ახალი დეკლარაცია**
 1. **გადამხდელის ტიპი** აირჩიე **სხვა**
@@ -82,7 +88,9 @@ ${transactionsDeclarationStepsStr}
 1. დასქროლე გვერდის ბოლოში და დააჭირე ღილაკს **შენახვა**
 1. ასქროლე სულ ზემოთ და დააჭირე გათიშვის ღილაკს იკონით **x**
 
-# დეკლარაციების წარდგენა
+---
+
+### დეკლარაციების წარდგენა
 1. გადავდივარ გვერდზე **სტატისტიკა > გადასაგზავნი დეკლარაციები**
 1. შედიხარ ყველა დელკარაციაში
 1. აკლიკავ **შემდეგს** მანამ სანამ არ გამოჩნდება ღილაკი **გადაგზავნა**

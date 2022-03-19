@@ -1,31 +1,47 @@
 import React, { useState } from 'react'
-// import { Pane, Card, Heading, Button, EditIcon } from 'evergreen-ui'
-import { Box, Container, Heading, VStack } from '@chakra-ui/react'
+import { Box, Button, Container, Heading, Stack, VStack } from '@chakra-ui/react'
+import { FiEdit3 } from 'react-icons/fi'
 
 import TaxForm from './TaxForm'
 import Preview from './Preview'
-import generateStepsMD, { State } from './generator'
 
-function App() {
-  const [md, setMd] = useState<string>('')
+export interface FormState {
+  fullName: string
+  address: string
+  personalNumber: string
+  transactions: Array<any>
+}
 
-  //     <Card elevation={2} marginX="auto" maxWidth="960px" padding="15px" background="white">
-  //       <Button iconBefore={EditIcon} appearance="minimal" onClick={() => setMd(null)}>
-  //         ფორმის ჩასწორება
-  //       </Button>
+const App: React.VFC = () => {
+  const [formState, setFormState] = useState<FormState>()
+  const [isEditing, setEditing] = useState(false)
 
-  //       <Preview md={md} />
-  //     </Card>
-  //   ) : (
+  const handleSubmit = (state: FormState) => {
+    setFormState(state)
+    setEditing(false)
+  }
 
-  const handleSubmit = (state: State) => {
-    setMd(generateStepsMD(state))
+  const handleEdit = () => {
+    setEditing(true)
   }
 
   return (
     <Box minHeight="100vh" padding="4">
-      {md ? (
-        <div>preview</div>
+      {!isEditing && formState ? (
+        <Container as={Stack} maxW="container.md" spacing="4">
+          <Button
+            colorScheme="blue"
+            leftIcon={<FiEdit3 />}
+            type="submit"
+            onClick={handleEdit}
+            // TODO: validation
+            // disabled={isSubmitting || !isValid}
+          >
+            ფორმის ჩასწორება
+          </Button>
+
+          <Preview data={formState} />
+        </Container>
       ) : (
         <Container as={VStack} maxW="container.sm" spacing="4">
           <Heading as="h2" size="md">
@@ -41,7 +57,7 @@ function App() {
             borderRadius="lg"
             p={3}
           >
-            <TaxForm onSubmit={handleSubmit} />
+            <TaxForm data={formState} onSubmit={handleSubmit} />
           </Box>
         </Container>
       )}
