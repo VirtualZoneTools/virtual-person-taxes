@@ -1,4 +1,10 @@
-function setReusableData({ fullName, address, personalNumber }) {
+interface StateData {
+  fullName: string
+  address: string
+  personalNumber: string
+}
+
+export function setReusableData({ fullName, address, personalNumber }: StateData) {
   if (getReusableData().fullName) return
 
   localStorage.setItem('fullName', fullName)
@@ -6,7 +12,7 @@ function setReusableData({ fullName, address, personalNumber }) {
   localStorage.setItem('personalNumber', personalNumber)
 }
 
-function getReusableData() {
+export function getReusableData() {
   return {
     fullName: localStorage.getItem('fullName') || '',
     address: localStorage.getItem('address') || '',
@@ -14,8 +20,6 @@ function getReusableData() {
   }
 }
 
-function clearReusableData() {
+export function clearReusableData() {
   localStorage.clear()
 }
-
-export { getReusableData, setReusableData, clearReusableData }
