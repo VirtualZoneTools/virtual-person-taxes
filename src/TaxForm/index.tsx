@@ -1,32 +1,25 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import {
   Box,
   Button,
   FormControl,
   FormLabel,
-  Heading,
   Input,
-  VStack,
   IconButton,
   Tooltip,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  useDisclosure,
   Stack,
+  InputGroup,
+  InputLeftElement,
+  Icon,
 } from '@chakra-ui/react'
+import { FaIdCard, FaLocationArrow, FaMagic, FaPlusCircle, FaUser } from 'react-icons/fa'
 import * as Yup from 'yup'
-import { format, isValid, parse, sub } from 'date-fns'
-import { FiZap, FiPlusCircle, FiTrash2 } from 'react-icons/fi'
-import { useFieldArray, useForm, UseFormRegister } from 'react-hook-form'
-import { DayPicker } from 'react-day-picker'
-import FocusLock from 'react-focus-lock'
-
+import { useFieldArray, useForm } from 'react-hook-form'
 import 'react-day-picker/dist/style.css'
 
 import { FormState } from '../App'
 import { getReusableData, setReusableData } from '../saveReusableData'
+import Transaction from './Transaction'
 
 const initialState: FormState = {
   ...getReusableData(),
@@ -112,32 +105,38 @@ const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
     <Stack as="form" spacing="4" onSubmit={handleSubmit(handleSubmitForm)}>
       <FormControl>
         <FormLabel htmlFor="fullName">სახელი და გვარი</FormLabel>
-        <Input
-          type="text"
-          backgroundColor="white"
-          placeholder="მაგ. გიორგი მაისურაძე"
-          {...register('fullName', { required: true, minLength: 2 })}
-        />
+        <InputGroup>
+          <InputLeftElement pointerEvents="none" children={<Icon as={FaUser} />} />
+          <Input
+            type="text"
+            placeholder="მაგ. გიორგი მაისურაძე"
+            {...register('fullName', { required: true, minLength: 2 })}
+          />
+        </InputGroup>
       </FormControl>
 
       <FormControl>
         <FormLabel htmlFor="address">მისამართი</FormLabel>
-        <Input
-          type="text"
-          backgroundColor="white"
-          placeholder="მაგ. რუსთაველის გამზ. 26"
-          {...register('address', { required: true, minLength: 2 })}
-        />
+        <InputGroup>
+          <InputLeftElement pointerEvents="none" children={<Icon as={FaLocationArrow} />} />
+          <Input
+            type="text"
+            placeholder="მაგ. რუსთაველის გამზ. 26"
+            {...register('address', { required: true, minLength: 2 })}
+          />
+        </InputGroup>
       </FormControl>
 
       <FormControl>
         <FormLabel htmlFor="personalNumber">პირადი ნომერი</FormLabel>
-        <Input
-          type="text"
-          backgroundColor="white"
-          placeholder="მაგ. 01101899998"
-          {...register('personalNumber', { required: true, minLength: 11, maxLength: 11 })}
-        />
+        <InputGroup>
+          <InputLeftElement pointerEvents="none" children={<Icon as={FaIdCard} />} />
+          <Input
+            type="text"
+            placeholder="მაგ. 01101899998"
+            {...register('personalNumber', { required: true, minLength: 11, maxLength: 11 })}
+          />
+        </InputGroup>
       </FormControl>
 
       {transactions.map((transaction, index) => (
@@ -157,7 +156,7 @@ const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
           <IconButton
             aria-label="ტრანზაქციის დამატება"
             colorScheme="green"
-            icon={<FiPlusCircle />}
+            icon={<Icon as={FaPlusCircle} />}
             left="50%"
             top="-8"
             position="absolute"
@@ -175,7 +174,7 @@ const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
       <Box display="flex" justifyContent="center">
         <Button
           colorScheme="blue"
-          leftIcon={<FiZap />}
+          leftIcon={<Icon as={FaMagic} />}
           type="submit"
           // TODO: validation
           // disabled={isSubmitting || !isValid}
@@ -184,108 +183,6 @@ const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
         </Button>
       </Box>
     </Stack>
-  )
-}
-
-interface TransactionProps {
-  index: number
-  isOnly: boolean
-  isLast: boolean
-  onRemove: (index: number) => void
-  onAppend: () => void
-  register: UseFormRegister<FormState>
-}
-
-const Transaction: React.VFC<TransactionProps> = ({
-  index,
-  isOnly,
-  isLast,
-  onRemove,
-  register,
-}) => {
-  const [selected, setSelected] = useState<Date>()
-
-  const { onOpen, onClose, isOpen } = useDisclosure()
-
-  // const handleDaySelect = (date: Date) => {
-  //   setSelected(date)
-
-  //   if (date) {
-  //     setInputValue(format(date, 'y-MM-dd'))
-  //   } else {
-  //     setInputValue('')
-  //   }
-  // }
-
-  const dateInputFormProps = { ...register(`transactions.${index}.date`, { required: true }) }
-
-  return (
-    <Box
-      as={Stack}
-      spacing="4"
-      width="full"
-      borderWidth="1px"
-      borderColor="gray.400"
-      backgroundColor="white"
-      borderRadius="lg"
-      shadow="md"
-      p={3}
-      paddingBottom={isLast ? 6 : undefined}
-    >
-      <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="12px">
-        <Heading as="h3" size="sm">
-          ტრანზაქცია #{index + 1}
-        </Heading>
-
-        <Tooltip label="ტრანზაქციის წაშლა" placement="right">
-          <IconButton
-            aria-label="ტრანზაქციის წაშლა"
-            size="sm"
-            colorScheme="red"
-            // variant="outline"
-            icon={<FiTrash2 />}
-            borderRadius="full"
-            disabled={isOnly}
-            onClick={() => onRemove(index)}
-          />
-        </Tooltip>
-      </Box>
-
-      <FormControl>
-        <FormLabel htmlFor={`transactions.${index}.date`}>თარიღი</FormLabel>
-
-        <Popover
-          isOpen={isOpen}
-          onOpen={onOpen}
-          onClose={onClose}
-          placement="right-end"
-          closeOnBlur={true}
-        >
-          <PopoverTrigger>
-            <Input placeholder="მაგ. Mar 19, 2022" {...dateInputFormProps} />
-          </PopoverTrigger>
-          <PopoverContent boxShadow="lg">
-            <FocusLock returnFocus persistentFocus={false}>
-              <PopoverArrow />
-
-              <DayPicker
-                mode="single"
-                // {...dateInputFormProps}
-                selected={selected}
-              />
-            </FocusLock>
-          </PopoverContent>
-        </Popover>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel htmlFor={`transactions.${index}.amount`}>დივიდენდის რაოდენობა</FormLabel>
-        <Input
-          placeholder="მაგ. 10000"
-          {...register(`transactions.${index}.amount`, { required: true })}
-        />
-      </FormControl>
-    </Box>
   )
 }
 
