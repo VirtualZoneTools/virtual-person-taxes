@@ -59,7 +59,7 @@ interface TaxFormProps {
 }
 
 const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
-  const { control, register, handleSubmit } = useForm({
+  const { control, register, handleSubmit, setValue } = useForm({
     defaultValues: data || initialState,
   })
   const {
@@ -148,6 +148,7 @@ const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
           onRemove={handleRemoveTransaction}
           onAppend={handleAddTransaction}
           register={register}
+          setValue={setValue}
         />
       ))}
 

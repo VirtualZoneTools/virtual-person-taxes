@@ -18,12 +18,16 @@ import {
   Icon,
   InputLeftAddon,
 } from '@chakra-ui/react'
-import { UseFormRegister } from 'react-hook-form'
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { DayPicker } from 'react-day-picker'
 import FocusLock from 'react-focus-lock'
 
 import { FormState } from '../App'
 import { FaCalendarAlt, FaMoneyBillWave, FaTrashAlt } from 'react-icons/fa'
+import { format } from 'date-fns'
+
+// TODO separate this
+const DATE_FORMAT = 'MMM dd, yyy'
 
 interface TransactionProps {
   index: number
@@ -32,6 +36,7 @@ interface TransactionProps {
   onRemove: (index: number) => void
   onAppend: () => void
   register: UseFormRegister<FormState>
+  setValue: UseFormSetValue<FormState>
 }
 
 const Transaction: React.VFC<TransactionProps> = ({
@@ -40,6 +45,7 @@ const Transaction: React.VFC<TransactionProps> = ({
   isLast,
   onRemove,
   register,
+  setValue,
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
 
@@ -101,7 +107,11 @@ const Transaction: React.VFC<TransactionProps> = ({
           <PopoverTrigger>
             <InputGroup>
               <InputLeftAddon pointerEvents="none" children={<Icon as={FaCalendarAlt} />} />
-              <Input placeholder="მაგ. Mar 19, 2022" {...dateInputFormProps} />
+              <Input
+                placeholder="მაგ. Mar 19, 2022"
+                {...dateInputFormProps}
+                {...register(`transactions.${index}.date`, { required: true })}
+              />
             </InputGroup>
           </PopoverTrigger>
 
@@ -111,6 +121,9 @@ const Transaction: React.VFC<TransactionProps> = ({
 
               <DayPicker
                 mode="single"
+                onSelect={(date: Date | undefined) =>
+                  date && setValue(`transactions.${index}.date`, format(date, DATE_FORMAT))
+                }
                 // {...dateInputFormProps}
               />
             </FocusLock>
