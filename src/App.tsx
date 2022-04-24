@@ -63,14 +63,7 @@ const App: React.VFC = () => {
             ინსტრუქციის მისაღებად შეავსეთ ფორმა
           </Heading>
 
-          <Box
-            maxW="sm"
-            borderWidth="2px"
-            borderColor="gray.400"
-            boxShadow="lg"
-            borderRadius="lg"
-            p={3}
-          >
+          <Box maxW="sm">
             <TaxForm data={formState} onSubmit={handleSubmit} />
           </Box>
         </Container>

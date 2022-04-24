@@ -7,14 +7,14 @@ const Navigation: React.VFC = () => {
     <ButtonGroup isAttached variant="outline">
       <Button height="20">
         <VStack>
-          <Icon as={FaMoneyBillWave} w={6} h={6} color="red" />
+          <Icon as={FaMoneyBillWave} w={6} h={6} />
           <Text>დივიდენდი</Text>
         </VStack>
       </Button>
 
       <Button height="20">
         <VStack>
-          <Icon as={FaPiggyBank} w={6} h={6} color="red" />
+          <Icon as={FaPiggyBank} w={6} h={6} />
           <Text>დეკლარაცია</Text>
         </VStack>
       </Button>
