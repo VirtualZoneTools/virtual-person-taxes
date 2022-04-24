@@ -101,7 +101,7 @@ const Transaction: React.VFC<TransactionProps> = ({
           isOpen={isOpen}
           onOpen={onOpen}
           onClose={onClose}
-          placement="auto-end"
+          placement="auto"
           closeOnBlur={true}
         >
           <PopoverTrigger>
