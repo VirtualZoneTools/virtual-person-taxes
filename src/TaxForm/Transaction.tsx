@@ -1,4 +1,8 @@
 import React from 'react'
+
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { DayPicker } from 'react-day-picker'
+import FocusLock from 'react-focus-lock'
 import {
   Box,
   FormControl,
@@ -18,9 +22,6 @@ import {
   Icon,
   InputLeftAddon,
 } from '@chakra-ui/react'
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
-import { DayPicker } from 'react-day-picker'
-import FocusLock from 'react-focus-lock'
 
 import { FormState } from '../App'
 import { FaCalendarAlt, FaMoneyBillWave, FaTrashAlt } from 'react-icons/fa'
