@@ -11,10 +11,12 @@ import {
   InputGroup,
   InputLeftElement,
   Icon,
+  FormErrorMessage,
 } from '@chakra-ui/react'
 import { FaIdCard, FaLocationArrow, FaMagic, FaPlusCircle, FaUser } from 'react-icons/fa'
-import * as Yup from 'yup'
 import { useFieldArray, useForm } from 'react-hook-form'
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import 'react-day-picker/dist/style.css'
 
 import { FormState } from '../App'
@@ -32,23 +34,26 @@ const initialState: FormState = {
 }
 
 const messages = {
-  required: () => 'აუცილებელი ველი',
+  required: (field: string) => `${field}ს ველი სავალდებულოა`,
   short: (field: string) => `${field} ძალიან მოკლეა`,
-  invalid: (field: string) => `არასწორი ${field}`,
+  format: (field: string, format: string) => `${field} უნდა იყოს "${format}"-ის`,
+  length: (field: string, length: number) => `${field} უნდა იყოს ${length} სიმბოლო`,
 }
 
-const Schema = Yup.object().shape({
-  fullName: Yup.string().min(2, messages.short('სახელი')).required(messages.required()),
-  address: Yup.string().min(2, messages.short('მისამართი')).required(messages.required()),
+const schema = Yup.object().shape({
+  fullName: Yup.string().min(2, messages.short('სახელი')).required(messages.required('სახელი')),
+  address: Yup.string()
+    .min(2, messages.short('მისამართი'))
+    .required(messages.required('მისამართი')),
   personalNumber: Yup.string()
-    .length(11, messages.invalid('პირადი ნომერი'))
-    .required(messages.required()),
+    .length(11, messages.length('პირადი ნომერი', 11))
+    .required(messages.required('პირადი ნომერი')),
   transactions: Yup.array().of(
     Yup.object().shape({
       date: Yup.string()
-        .min(10, 'თარიღი უნდა იყოს DD/MM/YYYY ფორმატში')
-        .required(messages.required()),
-      amount: Yup.number().required(messages.required()),
+        .min(10, messages.format('თარიღი', 'DD/MM/YYYY'))
+        .required(messages.required('თარიღი')),
+      amount: Yup.number().required(messages.required('თარიღი')),
     }),
   ),
 })
@@ -58,9 +63,16 @@ interface TaxFormProps {
   onSubmit: (data: any) => void
 }
 
-const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
-  const { control, register, handleSubmit, setValue } = useForm({
+const TaxForm: React.FC<TaxFormProps> = ({ data, onSubmit }) => {
+  const {
+    control,
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: data || initialState,
+    resolver: yupResolver(schema),
   })
   const {
     fields: transactions,
@@ -103,40 +115,31 @@ const TaxForm: React.VFC<TaxFormProps> = ({ data, onSubmit }) => {
 
   return (
     <Stack as="form" spacing="4" onSubmit={handleSubmit(handleSubmitForm)}>
-      <FormControl>
+      <FormControl isInvalid={!!errors.fullName}>
         <FormLabel htmlFor="fullName">სახელი და გვარი</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<Icon as={FaUser} />} />
-          <Input
-            type="text"
-            placeholder="მაგ. გიორგი მაისურაძე"
-            {...register('fullName', { required: true, minLength: 2 })}
-          />
+          <Input type="text" placeholder="მაგ. გიორგი მაისურაძე" {...register('fullName')} />
         </InputGroup>
+        <FormErrorMessage>{errors.fullName?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl>
+      <FormControl isInvalid={!!errors.address}>
         <FormLabel htmlFor="address">მისამართი</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<Icon as={FaLocationArrow} />} />
-          <Input
-            type="text"
-            placeholder="მაგ. რუსთაველის გამზ. 26"
-            {...register('address', { required: true, minLength: 2 })}
-          />
+          <Input type="text" placeholder="მაგ. რუსთაველის გამზ. 26" {...register('address')} />
         </InputGroup>
+        <FormErrorMessage>{errors.address?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl>
+      <FormControl isInvalid={!!errors.personalNumber}>
         <FormLabel htmlFor="personalNumber">პირადი ნომერი</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<Icon as={FaIdCard} />} />
-          <Input
-            type="text"
-            placeholder="მაგ. 01101899998"
-            {...register('personalNumber', { required: true, minLength: 11, maxLength: 11 })}
-          />
+          <Input type="number" placeholder="მაგ. 01101899998" {...register('personalNumber')} />
         </InputGroup>
+        <FormErrorMessage>{errors.personalNumber?.message}</FormErrorMessage>
       </FormControl>
 
       {transactions.map((transaction, index) => (

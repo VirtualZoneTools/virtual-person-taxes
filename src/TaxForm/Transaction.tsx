@@ -3,29 +3,28 @@ import React from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { DayPicker } from 'react-day-picker'
 import FocusLock from 'react-focus-lock'
+import { FaCalendarAlt, FaMoneyBillWave, FaTrashAlt } from 'react-icons/fa'
+import { format } from 'date-fns'
 import {
   Box,
   FormControl,
   FormLabel,
   Heading,
-  Input,
+  Icon,
   IconButton,
-  Tooltip,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  useDisclosure,
-  Stack,
+  Input,
   InputGroup,
   InputLeftElement,
-  Icon,
-  InputLeftAddon,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+  Stack,
+  Tooltip,
+  useDisclosure,
 } from '@chakra-ui/react'
 
 import { FormState } from '../App'
-import { FaCalendarAlt, FaMoneyBillWave, FaTrashAlt } from 'react-icons/fa'
-import { format } from 'date-fns'
 
 // TODO separate this
 const DATE_FORMAT = 'MMM dd, yyy'
@@ -40,7 +39,7 @@ interface TransactionProps {
   setValue: UseFormSetValue<FormState>
 }
 
-const Transaction: React.VFC<TransactionProps> = ({
+const Transaction: React.FC<TransactionProps> = ({
   index,
   isOnly,
   isLast,
@@ -54,12 +53,12 @@ const Transaction: React.VFC<TransactionProps> = ({
 
   return (
     <Box
+      p={3}
       width="full"
       borderWidth="2px"
       borderColor="gray.700"
       borderRadius="lg"
       shadow="md"
-      p={3}
       paddingBottom={isLast ? 6 : undefined}
       position="relative"
     >
