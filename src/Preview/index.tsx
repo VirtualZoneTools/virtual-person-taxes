@@ -10,7 +10,7 @@ interface MarkdownPreviewProps {
   data: FormState
 }
 
-const MarkdownPreview: React.VFC<MarkdownPreviewProps> = ({ data }) => {
+const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({ data }) => {
   return (
     <ReactMarkdown
       components={{

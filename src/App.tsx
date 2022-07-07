@@ -13,7 +13,7 @@ export interface FormState {
   transactions: Array<any>
 }
 
-const App: React.VFC = () => {
+const App: React.FC = () => {
   const [formState, setFormState] = useState<FormState>()
   const [isEditing, setEditing] = useState(false)
 
@@ -59,13 +59,11 @@ const App: React.VFC = () => {
         <Container as={VStack} maxW="container.sm" spacing="4">
           <Navigation />
 
-          <Heading as="h2" size="md">
+          <Heading as="h2" size="sm">
             ინსტრუქციის მისაღებად შეავსეთ ფორმა
           </Heading>
 
-          <Box maxW="sm">
-            <TaxForm data={formState} onSubmit={handleSubmit} />
-          </Box>
+          <TaxForm data={formState} onSubmit={handleSubmit} />
         </Container>
       )}
     </Box>

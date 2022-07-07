@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon, Button, VStack, Text, ButtonGroup } from '@chakra-ui/react'
 import { FaPiggyBank, FaMoneyBillWave } from 'react-icons/fa'
 
-const Navigation: React.VFC = () => {
+const Navigation: React.FC = () => {
   return (
     <ButtonGroup isAttached variant="outline">
       <Button height="20">
