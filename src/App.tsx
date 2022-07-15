@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Box, Button, Container, Heading, Icon, Stack, VStack } from '@chakra-ui/react'
+import { FC, useState } from 'react'
+import { Button, Container, Heading, Icon, Stack, VStack } from '@chakra-ui/react'
 import { FaEdit } from 'react-icons/fa'
 
 import TaxForm from './TaxForm'
@@ -13,7 +13,7 @@ export interface FormState {
   transactions: Array<any>
 }
 
-const App: React.FC = () => {
+const App: FC = () => {
   const [formState, setFormState] = useState<FormState>()
   const [isEditing, setEditing] = useState(false)
 
@@ -27,7 +27,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <Box minHeight="100vh" padding="4">
+    <>
       {!isEditing && formState ? (
         <Container
           as={Stack}
@@ -35,7 +35,7 @@ const App: React.FC = () => {
           spacing="4"
           borderWidth="2px"
           borderColor="gray.400"
-          boxShadow="lg"
+          Shadow="lg"
           borderRadius="lg"
           py={4}
           px={12}
@@ -56,17 +56,19 @@ const App: React.FC = () => {
           <Preview data={formState} />
         </Container>
       ) : (
-        <Container as={VStack} maxW="container.sm" spacing="4">
+        <>
           <Navigation />
 
-          <Heading as="h2" size="sm">
-            ინსტრუქციის მისაღებად შეავსეთ ფორმა
-          </Heading>
+          <Container as={VStack} maxW="container.sm" spacing="4">
+            <Heading as="h2" size="sm">
+              ინსტრუქციის მისაღებად შეავსეთ ფორმა
+            </Heading>
 
-          <TaxForm data={formState} onSubmit={handleSubmit} />
-        </Container>
+            <TaxForm data={formState} onSubmit={handleSubmit} />
+          </Container>
+        </>
       )}
-    </Box>
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import {
   Box,
   Button,
@@ -63,7 +63,7 @@ interface TaxFormProps {
   onSubmit: (data: any) => void
 }
 
-const TaxForm: React.FC<TaxFormProps> = ({ data, onSubmit }) => {
+const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
   const {
     control,
     register,

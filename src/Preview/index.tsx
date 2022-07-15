@@ -1,7 +1,7 @@
-import { Heading, Input, OrderedList, UnorderedList, Text, Link } from '@chakra-ui/react'
-import React from 'react'
+import { FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import { Heading, Input, OrderedList, UnorderedList, Text, Link } from '@chakra-ui/react'
 
 import { FormState } from '../App'
 import generateStepsMD from '../generator'
@@ -10,7 +10,7 @@ interface MarkdownPreviewProps {
   data: FormState
 }
 
-const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({ data }) => {
+const MarkdownPreview: FC<MarkdownPreviewProps> = ({ data }) => {
   return (
     <ReactMarkdown
       components={{

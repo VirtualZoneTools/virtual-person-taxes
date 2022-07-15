@@ -1,24 +1,19 @@
-import React from 'react'
-import { Icon, Button, VStack, Text, ButtonGroup } from '@chakra-ui/react'
-import { FaPiggyBank, FaMoneyBillWave } from 'react-icons/fa'
+import { FC } from 'react'
+import { Box, Button, ButtonGroup, Flex, HStack, Icon, useColorModeValue } from '@chakra-ui/react'
+import { FaMoneyBillWave, FaPiggyBank } from 'react-icons/fa'
 
-const Navigation: React.FC = () => {
+export const Navigation: FC = () => {
   return (
-    <ButtonGroup isAttached variant="outline">
-      <Button height="20">
-        <VStack>
-          <Icon as={FaMoneyBillWave} w={6} h={6} />
-          <Text>დივიდენდი</Text>
-        </VStack>
-      </Button>
-
-      <Button height="20">
-        <VStack>
-          <Icon as={FaPiggyBank} w={6} h={6} />
-          <Text>დეკლარაცია</Text>
-        </VStack>
-      </Button>
-    </ButtonGroup>
+    <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
+      <HStack spacing="10" justify="space-between">
+        <Flex justify="space-between" flex="1">
+          <ButtonGroup variant="ghost" spacing="8">
+            <Button leftIcon={<Icon as={FaMoneyBillWave} w={6} h={6} />}>დივიდენდი</Button>
+            <Button leftIcon={<Icon as={FaPiggyBank} w={6} h={6} />}>დეკლარაცია</Button>
+          </ButtonGroup>
+        </Flex>
+      </HStack>
+    </Box>
   )
 }
 

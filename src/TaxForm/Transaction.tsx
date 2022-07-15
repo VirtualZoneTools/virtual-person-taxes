@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { DayPicker } from 'react-day-picker'
@@ -39,7 +39,7 @@ interface TransactionProps {
   setValue: UseFormSetValue<FormState>
 }
 
-const Transaction: React.FC<TransactionProps> = ({
+const Transaction: FC<TransactionProps> = ({
   index,
   isOnly,
   isLast,
