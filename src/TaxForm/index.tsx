@@ -13,7 +13,13 @@ import {
   Icon,
   FormErrorMessage,
 } from '@chakra-ui/react'
-import { FaIdCard, FaLocationArrow, FaMagic, FaPlusCircle, FaUser } from 'react-icons/fa'
+import {
+  BiUserVoice,
+  BiMap,
+  BiCreditCardFront,
+  BiRightArrowCircle,
+  BiPlusCircle,
+} from 'react-icons/bi'
 import { useFieldArray, useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -115,28 +121,28 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
 
   return (
     <Stack as="form" spacing="4" onSubmit={handleSubmit(handleSubmitForm)}>
-      <FormControl isInvalid={!!errors.fullName}>
-        <FormLabel htmlFor="fullName">სახელი და გვარი</FormLabel>
+      <FormControl isInvalid={!!errors.fullName} isRequired>
+        <FormLabel>სახელი და გვარი</FormLabel>
         <InputGroup>
-          <InputLeftElement pointerEvents="none" children={<Icon as={FaUser} />} />
+          <InputLeftElement pointerEvents="none" children={<Icon as={BiUserVoice} />} />
           <Input type="text" placeholder="მაგ. გიორგი მაისურაძე" {...register('fullName')} />
         </InputGroup>
         <FormErrorMessage>{errors.fullName?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.address}>
-        <FormLabel htmlFor="address">მისამართი</FormLabel>
+      <FormControl isInvalid={!!errors.address} isRequired>
+        <FormLabel>მისამართი</FormLabel>
         <InputGroup>
-          <InputLeftElement pointerEvents="none" children={<Icon as={FaLocationArrow} />} />
+          <InputLeftElement pointerEvents="none" children={<Icon as={BiMap} />} />
           <Input type="text" placeholder="მაგ. რუსთაველის გამზ. 26" {...register('address')} />
         </InputGroup>
         <FormErrorMessage>{errors.address?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.personalNumber}>
-        <FormLabel htmlFor="personalNumber">პირადი ნომერი</FormLabel>
+      <FormControl isInvalid={!!errors.personalNumber} isRequired>
+        <FormLabel>პირადი ნომერი</FormLabel>
         <InputGroup>
-          <InputLeftElement pointerEvents="none" children={<Icon as={FaIdCard} />} />
+          <InputLeftElement pointerEvents="none" children={<Icon as={BiCreditCardFront} />} />
           <Input type="number" placeholder="მაგ. 01101899998" {...register('personalNumber')} />
         </InputGroup>
         <FormErrorMessage>{errors.personalNumber?.message}</FormErrorMessage>
@@ -160,7 +166,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
           <IconButton
             aria-label="ტრანზაქციის დამატება"
             colorScheme="green"
-            icon={<Icon as={FaPlusCircle} />}
+            icon={<Icon as={BiPlusCircle} />}
             left="50%"
             top="-8"
             position="absolute"
@@ -178,7 +184,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
       <Box display="flex" justifyContent="center">
         <Button
           colorScheme="blue"
-          leftIcon={<Icon as={FaMagic} />}
+          leftIcon={<Icon as={BiRightArrowCircle} />}
           type="submit"
           // TODO: validation
           // disabled={isSubmitting || !isValid}
