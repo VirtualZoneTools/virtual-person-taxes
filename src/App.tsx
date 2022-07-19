@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
-import { Button, Container, Icon, Stack, VStack } from '@chakra-ui/react'
-import { FaEdit } from 'react-icons/fa'
+import { Container, Icon, IconButton, Stack, VStack } from '@chakra-ui/react'
+import { BiX } from 'react-icons/bi'
 
 import TaxForm from './TaxForm'
 import Preview from './Preview'
@@ -29,29 +29,23 @@ const App: FC = () => {
   return (
     <>
       {!isEditing && formState ? (
-        <Container
-          as={Stack}
-          maxW="container.md"
-          spacing="4"
-          borderWidth="2px"
-          borderColor="gray.400"
-          Shadow="lg"
-          borderRadius="lg"
-          py={4}
-          px={12}
-        >
-          <Button
-            width="min"
-            size="sm"
-            variant="outline"
-            leftIcon={<Icon as={FaEdit} />}
-            type="submit"
+        <Container as={Stack} maxW="container.md" paddingY={4} paddingX={8}>
+          <IconButton
+            aria-label="რედაქტირება"
+            size="md"
+            variant="ghost"
+            colorScheme="blue"
+            borderRadius="full"
+            icon={<Icon as={BiX} />}
             onClick={handleEdit}
+            position="absolute"
+            right={4}
+            top={4}
             // TODO: validation
             // disabled={isSubmitting || !isValid}
           >
             ფორმის ჩასწორება
-          </Button>
+          </IconButton>
 
           <Preview data={formState} />
         </Container>
