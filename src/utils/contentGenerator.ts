@@ -1,4 +1,4 @@
-import { FormState } from './App'
+import { FormState } from './../components/App'
 
 const dividendTax = (x: number) => (x / 95) * 5
 const input = (val: string | number) => `<input value="${val}"/>`
