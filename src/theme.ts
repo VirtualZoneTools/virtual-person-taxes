@@ -17,6 +17,10 @@ const GlobalStyle = {
   '.chakra-input__group .chakra-icon': {
     opacity: 0.75,
   },
+
+  '.chakra-form-control .chakra-form__label': {
+    marginBottom: 1,
+  },
 }
 
 const FormLabel: ComponentStyleConfig = {

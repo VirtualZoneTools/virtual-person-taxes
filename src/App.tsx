@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Button, Container, Heading, Icon, Stack, VStack } from '@chakra-ui/react'
+import { Button, Container, Icon, Stack, VStack } from '@chakra-ui/react'
 import { FaEdit } from 'react-icons/fa'
 
 import TaxForm from './TaxForm'
@@ -59,13 +59,9 @@ const App: FC = () => {
         <>
           <Navigation />
 
-          <Container as={VStack} maxW="container.sm" spacing="4">
-            <Heading as="h2" size="sm">
-              ინსტრუქციის მისაღებად შეავსეთ ფორმა
-            </Heading>
-
+          <VStack spacing="4" padding={4}>
             <TaxForm data={formState} onSubmit={handleSubmit} />
-          </Container>
+          </VStack>
         </>
       )}
     </>

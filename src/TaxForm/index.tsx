@@ -161,37 +161,33 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
         />
       ))}
 
-      <Box position="relative">
-        <Tooltip label="ტრანზაქციის დამატება" placement="right">
-          <IconButton
-            aria-label="ტრანზაქციის დამატება"
-            colorScheme="green"
-            icon={<Icon as={BiPlusCircle} />}
-            left="50%"
-            top="-8"
-            position="absolute"
-            transform="translateX(-50%)"
-            size="sm"
-            borderRadius="full"
-            onClick={handleAddTransaction}
-          />
-        </Tooltip>
-      </Box>
-
       {/* TODO: wsup */}
       {/* {status && status.msg && <Paragraph>{status.msg}</Paragraph>} */}
 
-      <Box display="flex" justifyContent="center">
+      <Stack>
         <Button
+          size="sm"
+          colorScheme="green"
+          leftIcon={<Icon as={BiPlusCircle} />}
+          borderRadius="full"
+          variant="outline"
+          onClick={handleAddTransaction}
+        >
+          ტრანზაქციის დამატება
+        </Button>
+
+        <Button
+          size="sm"
           colorScheme="blue"
           leftIcon={<Icon as={BiRightArrowCircle} />}
           type="submit"
           // TODO: validation
           // disabled={isSubmitting || !isValid}
+          borderRadius="full"
         >
-          ინსტრუქციების გენერირება
+          ინსტრუქციების ჩვენება
         </Button>
-      </Box>
+      </Stack>
     </Stack>
   )
 }

@@ -3,7 +3,6 @@ import { FC } from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { DayPicker } from 'react-day-picker'
 import FocusLock from 'react-focus-lock'
-import { FaCalendarAlt, FaMoneyBillWave, FaTrashAlt } from 'react-icons/fa'
 import { format } from 'date-fns'
 import {
   Box,
@@ -15,14 +14,17 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightAddon,
   Popover,
   PopoverArrow,
   PopoverContent,
   PopoverTrigger,
-  Stack,
+  Tag,
   Tooltip,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
+import { BiCalendar, BiMoney, BiTrash, BiX } from 'react-icons/bi'
 
 import { FormState } from '../App'
 
@@ -49,54 +51,51 @@ const Transaction: FC<TransactionProps> = ({
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
 
-  const dateInputFormProps = { ...register(`transactions.${index}.date`, { required: true }) }
+  const dateInputFormProps = { ...register(`transactions.${index}.date`) }
 
   return (
     <Box
       p={3}
       width="full"
-      borderWidth="2px"
-      borderColor="gray.700"
-      borderRadius="lg"
+      borderWidth="1px"
+      borderColor="gray.300"
+      // backgroundColor="gray.50"
+      borderRadius="md"
       shadow="md"
-      paddingBottom={isLast ? 6 : undefined}
       position="relative"
     >
       {!isOnly && (
-        <Box position="absolute" top="3" right="3" marginTop="0">
+        <Box position="absolute" top="2" right="2">
           <Tooltip label="ტრანზაქციის წაშლა" placement="right">
             <IconButton
               aria-label="ტრანზაქციის წაშლა"
-              size="xs"
+              size="sm"
               colorScheme="red"
-              // variant="outline"
-              icon={<Icon as={FaTrashAlt} />}
+              variant="ghost"
               borderRadius="full"
+              icon={<Icon as={BiX} />}
               onClick={() => onRemove(index)}
             />
           </Tooltip>
         </Box>
       )}
 
-      <Stack spacing="2">
-        <Heading as="h3" size="sm">
+      <VStack spacing="2">
+        <Tag colorScheme="orange" textAlign="center" alignItems="center">
           ტრანზაქცია #{index + 1}
-        </Heading>
+        </Tag>
 
-        <FormControl>
-          <FormLabel htmlFor={`transactions.${index}.amount`}>დივიდენდის რაოდენობა</FormLabel>
+        <FormControl isRequired>
+          <FormLabel>დივიდენდის რაოდენობა</FormLabel>
           <InputGroup>
-            <InputLeftElement pointerEvents="none" children={<Icon as={FaMoneyBillWave} />} />
-
-            <Input
-              placeholder="მაგ. 10000"
-              {...register(`transactions.${index}.amount`, { required: true })}
-            />
+            <InputLeftElement pointerEvents="none" children={<Icon as={BiMoney} />} />
+            <Input placeholder="მაგ. 10000" {...register(`transactions.${index}.amount`)} />
+            <InputRightAddon>₾</InputRightAddon>
           </InputGroup>
         </FormControl>
 
-        <FormControl>
-          <FormLabel htmlFor={`transactions.${index}.date`}>თარიღი</FormLabel>
+        <FormControl isRequired>
+          <FormLabel>თარიღი</FormLabel>
 
           <Popover
             isOpen={isOpen}
@@ -105,16 +104,16 @@ const Transaction: FC<TransactionProps> = ({
             placement="auto"
             closeOnBlur={true}
           >
-            <PopoverTrigger>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<Icon as={FaCalendarAlt} />} />
-                <Input
-                  placeholder="მაგ. Mar 19, 2022"
-                  {...dateInputFormProps}
-                  {...register(`transactions.${index}.date`, { required: true })}
-                />
-              </InputGroup>
-            </PopoverTrigger>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none" children={<Icon as={BiCalendar} />} />
+              <Input
+                type="date"
+                placeholder="მაგ. Mar 19, 2022"
+                {...dateInputFormProps}
+                {...register(`transactions.${index}.date`)}
+              />
+            </InputGroup>
+            {/* </PopoverTrigger> */}
 
             <PopoverContent>
               <FocusLock returnFocus persistentFocus={false}>
@@ -131,7 +130,7 @@ const Transaction: FC<TransactionProps> = ({
             </PopoverContent>
           </Popover>
         </FormControl>
-      </Stack>
+      </VStack>
     </Box>
   )
 }
