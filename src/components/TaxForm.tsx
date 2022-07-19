@@ -21,7 +21,7 @@ import {
   BiPlusCircle,
 } from 'react-icons/bi'
 
-import { getReusableData, setReusableData } from './utils/saveReusableData'
+import { getReusableData, setReusableData } from './../utils/saveReusableData'
 import { FormState } from './App'
 import Transaction from './Transaction'
 

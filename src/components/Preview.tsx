@@ -4,7 +4,7 @@ import rehypeRaw from 'rehype-raw'
 import { Heading, Input, OrderedList, UnorderedList, Text, Link } from '@chakra-ui/react'
 
 import { FormState } from './App'
-import generateMarkdownContent from './contentGenerator'
+import generateMarkdownContent from './../utils/contentGenerator'
 
 interface PreviewProps {
   data: FormState
