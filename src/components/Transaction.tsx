@@ -85,11 +85,15 @@ const Transaction: FC<TransactionProps> = ({
           ტრანზაქცია #{index + 1}
         </Tag>
 
-        <FormControl isRequired>
+        <FormControl isRequired isInvalid={!!errors.transactions?.[index]?.amount}>
           <FormLabel>დივიდენდის რაოდენობა</FormLabel>
           <InputGroup>
             <InputLeftElement pointerEvents="none" children={<Icon as={BiMoney} />} />
-            <Input placeholder="მაგ. 10000" {...register(`transactions.${index}.amount`)} />
+            <Input
+              type="number"
+              placeholder="მაგ. 10000"
+              {...register(`transactions.${index}.amount`)}
+            />
             <InputRightAddon>₾</InputRightAddon>
           </InputGroup>
           {errors.transactions?.[index]?.amount?.message && (
@@ -97,7 +101,7 @@ const Transaction: FC<TransactionProps> = ({
           )}
         </FormControl>
 
-        <FormControl isRequired>
+        <FormControl isRequired isInvalid={!!errors.transactions?.[index]?.date}>
           <FormLabel>თარიღი</FormLabel>
           <Popover
             isOpen={isOpen}
@@ -109,7 +113,6 @@ const Transaction: FC<TransactionProps> = ({
             <InputGroup>
               <InputLeftElement pointerEvents="none" children={<Icon as={BiCalendar} />} />
               <Input
-                type="date"
                 placeholder="მაგ. Mar 19, 2022"
                 {...dateInputFormProps}
                 {...register(`transactions.${index}.date`)}

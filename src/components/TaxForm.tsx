@@ -33,8 +33,10 @@ const initialState: FormState = {
 const messages = {
   required: (field: string) => `${field}ს ველი სავალდებულოა`,
   short: (field: string) => `${field} ძალიან მოკლეა`,
+  small: (field: string) => `${field} ძალიან ცოტაა`,
   format: (field: string, format: string) => `${field} უნდა იყოს "${format}"-ის`,
   length: (field: string, length: number) => `${field} უნდა იყოს ${length} სიმბოლო`,
+  typeError: (field: string, type: string) => `${field} უნდა იყოს ${type}`,
 }
 
 const schema = Yup.object().shape({
@@ -48,9 +50,12 @@ const schema = Yup.object().shape({
   transactions: Yup.array().of(
     Yup.object().shape({
       date: Yup.string()
-        .min(10, messages.format('თარიღი', 'DD/MM/YYYY'))
-        .required(messages.required('თარიღი')),
-      amount: Yup.number().required(messages.required('თარიღი')),
+        .required(messages.required('თარიღი'))
+        .matches(/^\w{3} \d{2}, \d{4}$/, messages.format('თარიღი', 'Mar 19, 2022')),
+      amount: Yup.number()
+        .typeError(messages.typeError('დივიდენდი', 'რიცხვი'))
+        .required(messages.required('დივიდენდი'))
+        .min(10, messages.small('დივიდენდი')),
     }),
   ),
 })
