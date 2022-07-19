@@ -1,5 +1,4 @@
 import { FC } from 'react'
-
 import { DeepRequired, FieldErrorsImpl, UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { DayPicker } from 'react-day-picker'
 import FocusLock from 'react-focus-lock'
@@ -93,7 +92,9 @@ const Transaction: FC<TransactionProps> = ({
             <Input placeholder="მაგ. 10000" {...register(`transactions.${index}.amount`)} />
             <InputRightAddon>₾</InputRightAddon>
           </InputGroup>
-          <FormErrorMessage>{errors.transactions?.[index]?.amount?.message}</FormErrorMessage>
+          {errors.transactions?.[index]?.amount?.message && (
+            <FormErrorMessage>{errors.transactions?.[index]?.amount?.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <FormControl isRequired>
@@ -130,7 +131,9 @@ const Transaction: FC<TransactionProps> = ({
               </FocusLock>
             </PopoverContent>
           </Popover>
-          <FormErrorMessage>{errors.transactions?.[index]?.amount?.date}</FormErrorMessage>
+          {errors.transactions?.[index]?.date?.message && (
+            <FormErrorMessage>{errors.transactions?.[index]?.date?.message}</FormErrorMessage>
+          )}
         </FormControl>
       </VStack>
     </Box>

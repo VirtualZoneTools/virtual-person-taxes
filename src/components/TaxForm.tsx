@@ -27,12 +27,7 @@ import Transaction from './Transaction'
 
 const initialState: FormState = {
   ...getReusableData(),
-  transactions: [
-    {
-      date: '',
-      amount: undefined,
-    },
-  ],
+  transactions: [{ date: '', amount: undefined }],
 }
 
 const messages = {
@@ -109,7 +104,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
   }
 
   const handleAddTransaction = () => {
-    append({ date: '', amount: '' })
+    append({ date: '', amount: undefined })
   }
 
   // TODO: implement this.

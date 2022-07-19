@@ -4,10 +4,14 @@ const dividendTax = (x: number) => (x / 95) * 5
 const input = (val: string | number) => `<input value="${val}"/>`
 
 const generate = function ({ fullName, address, personalNumber, transactions }: FormState): string {
-  const allDivident = transactions.reduce((acc, x) => acc + x.amount, 0)
+  const nonEmptyTransactions = transactions
+    .filter((t) => Boolean(t.amount))
+    .map((t) => ({ ...t, amount: t.amount! }))
+
+  const allDivident = nonEmptyTransactions.reduce((acc, x) => acc + x.amount, 0)
   const allDividentTax = dividendTax(allDivident)
   const allDividentPlusTaxSum = allDivident + allDividentTax
-  const transactionOverviewStr = transactions
+  const transactionOverviewStr = nonEmptyTransactions
     .map(({ amount, date }) =>
       `
 1. ${date} - ${amount + dividendTax(amount)} ლარიდან, ${amount} არის დივიდენდი, ხოლო ${dividendTax(
@@ -16,7 +20,7 @@ const generate = function ({ fullName, address, personalNumber, transactions }: 
 `.trim(),
     )
     .join('\n')
-  const transactionsDeclarationStepsStr = transactions
+  const transactionsDeclarationStepsStr = nonEmptyTransactions
     .map(({ amount, date }) =>
       `
 1. ველში **განაცემის მიმღების საიდენტ. ნომერი** ჩაწერე ${input(personalNumber)}

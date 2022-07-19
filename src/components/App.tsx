@@ -10,7 +10,10 @@ export interface FormState {
   fullName: string
   address: string
   personalNumber: string
-  transactions: Array<any>
+  transactions: {
+    date: string
+    amount?: number
+  }[]
 }
 
 const App: FC = () => {
