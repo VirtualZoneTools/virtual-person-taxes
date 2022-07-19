@@ -167,9 +167,9 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
       <Stack>
         <Button
           size="sm"
+          borderRadius="sm"
           colorScheme="green"
           leftIcon={<Icon as={BiPlusCircle} />}
-          borderRadius="full"
           variant="outline"
           onClick={handleAddTransaction}
         >
@@ -178,12 +178,12 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
 
         <Button
           size="sm"
+          borderRadius="sm"
           colorScheme="blue"
           leftIcon={<Icon as={BiRightArrowCircle} />}
           type="submit"
           // TODO: validation
           // disabled={isSubmitting || !isValid}
-          borderRadius="full"
         >
           ინსტრუქციების ჩვენება
         </Button>

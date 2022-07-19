@@ -8,7 +8,6 @@ import {
   Box,
   FormControl,
   FormLabel,
-  Heading,
   Icon,
   IconButton,
   Input,
@@ -21,10 +20,11 @@ import {
   PopoverTrigger,
   Tag,
   Tooltip,
+  useColorModeValue,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import { BiCalendar, BiMoney, BiTrash, BiX } from 'react-icons/bi'
+import { BiCalendar, BiMoney, BiX } from 'react-icons/bi'
 
 import { FormState } from '../App'
 
@@ -58,15 +58,15 @@ const Transaction: FC<TransactionProps> = ({
       p={3}
       width="full"
       borderWidth="1px"
-      borderColor="gray.300"
+      borderColor={useColorModeValue('gray.200', 'whiteAlpha.300')}
       // backgroundColor="gray.50"
-      borderRadius="md"
-      shadow="md"
+      borderRadius="sm"
+      shadow="sm"
       position="relative"
     >
       {!isOnly && (
         <Box position="absolute" top="2" right="2">
-          <Tooltip label="ტრანზაქციის წაშლა" placement="right">
+          <Tooltip label="ტრანზაქციის წაშლა" placement="top">
             <IconButton
               aria-label="ტრანზაქციის წაშლა"
               size="sm"

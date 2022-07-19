@@ -11,8 +11,11 @@ const config: ThemeConfig = {
 }
 
 const GlobalStyle = {
-  'html, body': {
-    // backgroundColor: (...props: any) => ,
+  html: {
+    backgroundColor: () => useColorModeValue('gray.50', 'blackAlpha.500'), // eslint-disable-line
+  },
+  body: {
+    backgroundColor: 'transparent',
   },
   '.chakra-input__group .chakra-icon': {
     opacity: 0.75,
@@ -26,7 +29,7 @@ const GlobalStyle = {
 const FormLabel: ComponentStyleConfig = {
   baseStyle: () => ({
     fontSize: 'sm',
-    color: useColorModeValue('gray.600', 'gray.400'), // eslint-disable-line
+    color: useColorModeValue('gray.600', 'whiteAlpha.500'), // eslint-disable-line
   }),
 }
 
