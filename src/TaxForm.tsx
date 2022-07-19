@@ -1,12 +1,12 @@
 import { FC } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
-  Box,
   Button,
   FormControl,
   FormLabel,
   Input,
-  IconButton,
-  Tooltip,
   Stack,
   InputGroup,
   InputLeftElement,
@@ -20,13 +20,9 @@ import {
   BiRightArrowCircle,
   BiPlusCircle,
 } from 'react-icons/bi'
-import { useFieldArray, useForm } from 'react-hook-form'
-import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import 'react-day-picker/dist/style.css'
 
-import { FormState } from '../App'
-import { getReusableData, setReusableData } from '../saveReusableData'
+import { getReusableData, setReusableData } from './utils/saveReusableData'
+import { FormState } from './App'
 import Transaction from './Transaction'
 
 const initialState: FormState = {
@@ -156,6 +152,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
           isLast={index === transactions.length - 1}
           onRemove={handleRemoveTransaction}
           onAppend={handleAddTransaction}
+          errors={errors}
           register={register}
           setValue={setValue}
         />

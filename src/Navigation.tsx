@@ -3,18 +3,13 @@ import { Box, Button, ButtonGroup, Flex, HStack, Icon, useColorModeValue } from 
 import { FaMoneyBillWave, FaPiggyBank } from 'react-icons/fa'
 
 export const Navigation: FC = () => {
-  return (
-    <Box as="nav" bg="bg-surface" boxShadow={useColorModeValue('sm', 'sm-dark')}>
-      <HStack spacing="10" justify="space-between">
-        <Flex justify="space-between" flex="1">
-          <ButtonGroup variant="ghost" spacing="8">
-            <Button leftIcon={<Icon as={FaMoneyBillWave} w={6} h={6} />}>დივიდენდი</Button>
-            <Button leftIcon={<Icon as={FaPiggyBank} w={6} h={6} />}>დეკლარაცია</Button>
-          </ButtonGroup>
-        </Flex>
-      </HStack>
-    </Box>
-  )
+  return null
+  // <Box as="nav" boxShadow={useColorModeValue('sm', 'sm-dark')}>
+  //   <ButtonGroup variant="solid">
+  //     <Button leftIcon={<Icon as={FaMoneyBillWave} />}>დივიდენდი</Button>
+  //     <Button leftIcon={<Icon as={FaPiggyBank} />}>დეკლარაცია</Button>
+  //   </ButtonGroup>
+  // </Box>
 }
 
 export default Navigation

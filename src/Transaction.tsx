@@ -1,12 +1,13 @@
 import { FC } from 'react'
 
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { DeepRequired, FieldErrorsImpl, UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { DayPicker } from 'react-day-picker'
 import FocusLock from 'react-focus-lock'
 import { format } from 'date-fns'
 import {
   Box,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Icon,
   IconButton,
@@ -26,7 +27,7 @@ import {
 } from '@chakra-ui/react'
 import { BiCalendar, BiMoney, BiX } from 'react-icons/bi'
 
-import { FormState } from '../App'
+import { FormState } from './App'
 
 // TODO separate this
 const DATE_FORMAT = 'MMM dd, yyy'
@@ -37,6 +38,7 @@ interface TransactionProps {
   isLast: boolean
   onRemove: (index: number) => void
   onAppend: () => void
+  errors: FieldErrorsImpl<DeepRequired<FormState>>
   register: UseFormRegister<FormState>
   setValue: UseFormSetValue<FormState>
 }
@@ -44,9 +46,9 @@ interface TransactionProps {
 const Transaction: FC<TransactionProps> = ({
   index,
   isOnly,
-  isLast,
   onRemove,
   register,
+  errors,
   setValue,
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
@@ -55,12 +57,11 @@ const Transaction: FC<TransactionProps> = ({
 
   return (
     <Box
-      p={3}
+      padding={3}
       width="full"
       borderWidth="1px"
-      borderColor={useColorModeValue('gray.200', 'whiteAlpha.300')}
-      // backgroundColor="gray.50"
       borderRadius="sm"
+      borderColor={useColorModeValue('gray.200', 'whiteAlpha.300')}
       shadow="sm"
       position="relative"
     >
@@ -92,11 +93,11 @@ const Transaction: FC<TransactionProps> = ({
             <Input placeholder="მაგ. 10000" {...register(`transactions.${index}.amount`)} />
             <InputRightAddon>₾</InputRightAddon>
           </InputGroup>
+          <FormErrorMessage>{errors.transactions?.[index]?.amount?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl isRequired>
           <FormLabel>თარიღი</FormLabel>
-
           <Popover
             isOpen={isOpen}
             onOpen={onOpen}
@@ -129,6 +130,7 @@ const Transaction: FC<TransactionProps> = ({
               </FocusLock>
             </PopoverContent>
           </Popover>
+          <FormErrorMessage>{errors.transactions?.[index]?.amount?.date}</FormErrorMessage>
         </FormControl>
       </VStack>
     </Box>

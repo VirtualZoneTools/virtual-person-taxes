@@ -5,6 +5,8 @@ import {
   type ComponentStyleConfig,
 } from '@chakra-ui/react'
 
+import 'react-day-picker/dist/style.css'
+
 const config: ThemeConfig = {
   initialColorMode: 'light',
   useSystemColorMode: true,
