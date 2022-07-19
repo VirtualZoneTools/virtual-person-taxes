@@ -41,23 +41,23 @@ const messages = {
 
 const schema = Yup.object().shape({
   fullName: Yup.string()
-    .min(2, messages.short('სახელი'))
     .required(messages.required('სახელი'))
-    .matches(/^\w+( \w+)+$/u, messages.format('სახელი და გვარი', 'ერთად')),
+    .min(2, messages.short('სახელი'))
+    .matches(/^[a-zA-Zა-ჰ]+( [a-zA-Zა-ჰ]+)+$/, 'სახელი და გვარი უნდა იყოს ერთად'),
   address: Yup.string()
-    .min(2, messages.short('მისამართი'))
-    .required(messages.required('მისამართი')),
+    .required(messages.required('მისამართი'))
+    .min(2, messages.short('მისამართი')),
   personalNumber: Yup.string()
-    .length(11, messages.length('პირადი ნომერი', 11))
-    .required(messages.required('პირადი ნომერი')),
+    .required(messages.required('პირადი ნომერი'))
+    .length(11, messages.length('პირადი ნომერი', 11)),
   transactions: Yup.array().of(
     Yup.object().shape({
       date: Yup.string()
         .required(messages.required('თარიღი'))
         .matches(/^\w{3} \d{2}, \d{4}$/, messages.format('თარიღი', 'Mar 19, 2022')),
       amount: Yup.number()
-        .typeError(messages.typeError('დივიდენდი', 'რიცხვი'))
         .required(messages.required('დივიდენდი'))
+        .typeError(messages.typeError('დივიდენდი', 'რიცხვი'))
         .min(10, messages.small('დივიდენდი')),
     }),
   ),
