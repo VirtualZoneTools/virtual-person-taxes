@@ -28,27 +28,24 @@ import { BiCalendar, BiMoney, BiX } from 'react-icons/bi'
 
 import { FormState } from './App'
 
-// TODO separate this
-const DATE_FORMAT = 'MMM dd, yyy'
-
 interface TransactionProps {
   index: number
-  isOnly: boolean
-  isLast: boolean
-  onRemove: (index: number) => void
-  onAppend: () => void
+  transaction: FormState['transactions'][0]
   errors: FieldErrorsImpl<DeepRequired<FormState>>
+  isOnly: boolean
+  onRemove: (index: number) => void
   register: UseFormRegister<FormState>
   setValue: UseFormSetValue<FormState>
 }
 
 const Transaction: FC<TransactionProps> = ({
   index,
+  errors,
   isOnly,
   onRemove,
   register,
-  errors,
   setValue,
+  transaction,
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
 
@@ -85,7 +82,7 @@ const Transaction: FC<TransactionProps> = ({
           ტრანზაქცია #{index + 1}
         </Tag>
 
-        <FormControl isRequired isInvalid={!!errors.transactions?.[index]?.amount}>
+        <FormControl isInvalid={!!errors.transactions?.[index]?.amount}>
           <FormLabel>დივიდენდის რაოდენობა</FormLabel>
           <InputGroup>
             <InputLeftElement pointerEvents="none" children={<Icon as={BiMoney} />} />
@@ -101,7 +98,7 @@ const Transaction: FC<TransactionProps> = ({
           )}
         </FormControl>
 
-        <FormControl isRequired isInvalid={!!errors.transactions?.[index]?.date}>
+        <FormControl isInvalid={!!errors.transactions?.[index]?.date}>
           <FormLabel>თარიღი</FormLabel>
           <Popover
             isOpen={isOpen}
@@ -110,15 +107,17 @@ const Transaction: FC<TransactionProps> = ({
             placement="auto"
             closeOnBlur={true}
           >
-            <InputGroup>
-              <InputLeftElement pointerEvents="none" children={<Icon as={BiCalendar} />} />
-              <Input
-                placeholder="მაგ. Mar 19, 2022"
-                {...dateInputFormProps}
-                {...register(`transactions.${index}.date`)}
-              />
-            </InputGroup>
-            {/* </PopoverTrigger> */}
+            <PopoverTrigger>
+              <InputGroup>
+                <InputLeftElement pointerEvents="none" children={<Icon as={BiCalendar} />} />
+                <Input
+                  readOnly
+                  placeholder="მაგ. Mar 19, 2022"
+                  {...dateInputFormProps}
+                  {...register(`transactions.${index}.date`)}
+                />
+              </InputGroup>
+            </PopoverTrigger>
 
             <PopoverContent>
               <FocusLock returnFocus persistentFocus={false}>
@@ -126,10 +125,10 @@ const Transaction: FC<TransactionProps> = ({
 
                 <DayPicker
                   mode="single"
+                  selected={transaction.date}
                   onSelect={(date: Date | undefined) =>
-                    date && setValue(`transactions.${index}.date`, format(date, DATE_FORMAT))
+                    date && setValue(`transactions.${index}.date`, date)
                   }
-                  // {...dateInputFormProps}
                 />
               </FocusLock>
             </PopoverContent>

@@ -11,7 +11,7 @@ export interface FormState {
   address: string
   personalNumber: string
   transactions: {
-    date: string
+    date?: Date
     amount?: number
   }[]
 }
@@ -44,11 +44,7 @@ const App: FC = () => {
             position="absolute"
             right={4}
             top={4}
-            // TODO: validation
-            // disabled={isSubmitting || !isValid}
-          >
-            ფორმის ჩასწორება
-          </IconButton>
+          />
 
           <Preview data={formState} />
         </Container>

@@ -1,12 +1,14 @@
+import { format } from 'date-fns'
 import { FormState } from './../components/App'
+import { DATE_FORMAT } from './dateUtils'
 
 const dividendTax = (x: number) => (x / 95) * 5
 const input = (val: string | number) => `<input value="${val}"/>`
 
 const generate = function ({ fullName, address, personalNumber, transactions }: FormState): string {
   const nonEmptyTransactions = transactions
-    .filter((t) => Boolean(t.amount))
-    .map((t) => ({ ...t, amount: t.amount! }))
+    .filter((t) => Boolean(t.amount) && Boolean(t.date))
+    .map((t) => ({ amount: t.amount!, date: t.date! }))
 
   const allDivident = nonEmptyTransactions.reduce((acc, x) => acc + x.amount, 0)
   const allDividentTax = dividendTax(allDivident)
@@ -32,7 +34,7 @@ const generate = function ({ fullName, address, personalNumber, transactions }: 
 1. ველში **განაცემის სახე** აირჩიე **${input('დივიდენდი')}**
 1. ველში **განაცემის თანხა(ლარი)** ჩაწერე **${input(amount + dividendTax(amount))}**
 1. ველში **შეღავათის ოდენობა** ჩაწერე **${input(0)}**
-1. ველში **გაცემის თარიღი** შეიყვანე თარიღი **${input(date)}**
+1. ველში **გაცემის თარიღი** შეიყვანე თარიღი **${input(format(date, DATE_FORMAT))}**
 1. ველში **წყაროსთან დასაკავებელი გადასახადის განაკვეთი** აირჩიე **${input(5)}**
 1. ველში **დაკავებული გადასახადი (ლარი)** ჩაწერე **${input(allDividentTax)}**
 1. დააჭირე ღილასკს დამატება, იკონით **+**

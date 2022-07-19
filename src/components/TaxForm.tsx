@@ -27,7 +27,7 @@ import Transaction from './Transaction'
 
 const initialState: FormState = {
   ...getReusableData(),
-  transactions: [{ date: '', amount: undefined }],
+  transactions: [{ date: undefined, amount: undefined }],
 }
 
 const messages = {
@@ -40,7 +40,10 @@ const messages = {
 }
 
 const schema = Yup.object().shape({
-  fullName: Yup.string().min(2, messages.short('სახელი')).required(messages.required('სახელი')),
+  fullName: Yup.string()
+    .min(2, messages.short('სახელი'))
+    .required(messages.required('სახელი'))
+    .matches(/^\w+( \w+)+$/u, messages.format('სახელი და გვარი', 'ერთად')),
   address: Yup.string()
     .min(2, messages.short('მისამართი'))
     .required(messages.required('მისამართი')),
@@ -71,7 +74,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: data || initialState,
     resolver: yupResolver(schema),
@@ -109,15 +112,12 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
   }
 
   const handleAddTransaction = () => {
-    append({ date: '', amount: undefined })
+    append({ date: undefined, amount: undefined })
   }
-
-  // TODO: implement this.
-  // status, isSubmitting, isValid, values
 
   return (
     <Stack as="form" spacing="4" onSubmit={handleSubmit(handleSubmitForm)}>
-      <FormControl isInvalid={!!errors.fullName} isRequired>
+      <FormControl isInvalid={!!errors.fullName}>
         <FormLabel>სახელი და გვარი</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<Icon as={BiUserVoice} />} />
@@ -126,7 +126,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
         <FormErrorMessage>{errors.fullName?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.address} isRequired>
+      <FormControl isInvalid={!!errors.address}>
         <FormLabel>მისამართი</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<Icon as={BiMap} />} />
@@ -135,7 +135,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
         <FormErrorMessage>{errors.address?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.personalNumber} isRequired>
+      <FormControl isInvalid={!!errors.personalNumber}>
         <FormLabel>პირადი ნომერი</FormLabel>
         <InputGroup>
           <InputLeftElement pointerEvents="none" children={<Icon as={BiCreditCardFront} />} />
@@ -148,18 +148,14 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
         <Transaction
           key={transaction.id}
           index={index}
-          isOnly={transactions.length === 1}
-          isLast={index === transactions.length - 1}
-          onRemove={handleRemoveTransaction}
-          onAppend={handleAddTransaction}
           errors={errors}
+          isOnly={transactions.length === 1}
+          onRemove={handleRemoveTransaction}
           register={register}
           setValue={setValue}
+          transaction={transaction}
         />
       ))}
-
-      {/* TODO: wsup */}
-      {/* {status && status.msg && <Paragraph>{status.msg}</Paragraph>} */}
 
       <Stack>
         <Button
@@ -169,6 +165,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
           leftIcon={<Icon as={BiPlusCircle} />}
           variant="outline"
           onClick={handleAddTransaction}
+          disabled={isSubmitting}
         >
           ტრანზაქციის დამატება
         </Button>
@@ -179,8 +176,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
           colorScheme="blue"
           leftIcon={<Icon as={BiRightArrowCircle} />}
           type="submit"
-          // TODO: validation
-          // disabled={isSubmitting || !isValid}
+          disabled={isSubmitting}
         >
           ინსტრუქციების ჩვენება
         </Button>
