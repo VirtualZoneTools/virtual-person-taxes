@@ -1,7 +1,15 @@
 import { FC } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
-import { Heading, Input, OrderedList, UnorderedList, Text, Link } from '@chakra-ui/react'
+import {
+  Heading,
+  Input,
+  OrderedList,
+  UnorderedList,
+  Text,
+  Link,
+  useColorModeValue,
+} from '@chakra-ui/react'
 
 import generateMarkdownContent from '../utils/contentGenerator'
 import { FormState } from '../utils/state'
@@ -12,6 +20,9 @@ interface PreviewProps {
 
 const Preview: FC<PreviewProps> = ({ data }) => {
   const markdownContent = generateMarkdownContent(data)
+  const textColor = useColorModeValue('gray.800', 'gray.400')
+  const strongTextColor = useColorModeValue('gray.900', 'gray.300')
+
   return (
     <ReactMarkdown
       components={{
@@ -21,11 +32,22 @@ const Preview: FC<PreviewProps> = ({ data }) => {
         h4: (props) => <Heading as="h4" size="lg" {...props} />,
         h5: (props) => <Heading as="h5" size="md" {...props} />,
         h6: (props) => <Heading as="h6" size="xs" {...props} />,
-        ul: (props) => <UnorderedList {...props} fontSize="sm" />,
-        ol: (props) => <OrderedList {...props} fontSize="sm" />,
-        p: (props) => <Text as="p" {...props} fontSize="sm" />,
-        strong: (props) => <Text as="strong" {...props} fontWeight="semibold" fontSize="sm" />,
-        em: (props) => <Text as="em" {...props} fontStyle="italic" fontSize="sm" />,
+        ul: (props) => <UnorderedList {...props} fontSize="sm" color={textColor} />,
+        ol: (props) => <OrderedList {...props} fontSize="sm" color={textColor} />,
+        p: (props) => <Text as="p" {...props} fontSize="sm" color={textColor} />,
+        em: (props) => (
+          <Text as="em" {...props} fontStyle="italic" fontSize="sm" color={textColor} />
+        ),
+        strong: (props) => (
+          <Text
+            as="strong"
+            {...props}
+            fontWeight="semibold"
+            fontSize="sm"
+            color={strongTextColor}
+          />
+        ),
+
         a: (props) => (
           <Link as="a" {...props} color="blue.600" fontWeight="bold" isExternal fontSize="sm" />
         ),

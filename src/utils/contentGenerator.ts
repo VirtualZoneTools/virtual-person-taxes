@@ -15,9 +15,9 @@ const generate = function ({ fullName, address, personalNumber, transactions }: 
   const transactionOverviewStr = nonEmptyTransactions
     .map(({ amount, date }) =>
       `
-1. ${date} - ${amount + dividendTax(amount)} ლარიდან, ${amount} არის დივიდენდი, ხოლო ${dividendTax(
-        amount,
-      )} გადასახადი.
+1. ${formatDate(date)} - ${
+        amount + dividendTax(amount)
+      }₾-დან, ${amount}₾ არის დივიდენდი, ხოლო ${dividendTax(amount)}₾ გადასახადი.
 `.trim(),
     )
     .join('\n')
