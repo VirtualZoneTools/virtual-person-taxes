@@ -62,7 +62,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
   }
 
   return (
-    <Stack as="form" spacing="4" onSubmit={handleSubmit(handleSubmitForm)}>
+    <Stack as="form" spacing="4" minWidth="xs" onSubmit={handleSubmit(handleSubmitForm)}>
       <FormControl isInvalid={!!errors.fullName}>
         <FormLabel>სახელი და გვარი</FormLabel>
         <InputGroup>

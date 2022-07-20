@@ -33,6 +33,7 @@ import { BiCalendar, BiMoney, BiX } from 'react-icons/bi'
 
 import { formatDate } from '../utils/dateUtils'
 import { FormState } from '../utils/state'
+import { sub } from 'date-fns'
 
 interface TransactionProps {
   index: number
@@ -129,9 +130,14 @@ const Transaction: FC<TransactionProps> = ({
                     <PopoverArrow />
 
                     <DayPicker
+                      defaultMonth={sub(new Date(), { months: 1 })}
+                      toDate={new Date()}
                       mode="single"
                       selected={props.field.value}
-                      onSelect={props.field.onChange}
+                      onSelect={(date) => {
+                        props.field.onChange(date)
+                        onClose()
+                      }}
                     />
                   </FocusLock>
                 </PopoverContent>
