@@ -119,7 +119,7 @@ const Transaction: FC<TransactionProps> = ({
                     <InputLeftElement pointerEvents="none" children={<Icon as={BiCalendar} />} />
                     <Input
                       readOnly
-                      defaultValue={props.field.value && formatDate(props.field.value)}
+                      value={props.field.value ? formatDate(props.field.value) : ''}
                       placeholder="მაგ. Mar 19, 2022"
                     />
                   </InputGroup>
