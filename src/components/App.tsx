@@ -1,4 +1,5 @@
 import { FC, useState } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { Container, Icon, IconButton, Stack, VStack } from '@chakra-ui/react'
 import { BiX } from 'react-icons/bi'
 
@@ -41,10 +42,17 @@ const App: FC = () => {
         </Container>
       ) : (
         <>
-          <Navigation />
-
           <VStack spacing="4" padding={4}>
-            <TaxForm data={formState} onSubmit={handleSubmit} />
+            <Navigation />
+
+            <Routes>
+              <Route path="/dividend" element={<div>test</div>} />
+              <Route
+                path="/declaration"
+                element={<TaxForm data={formState} onSubmit={handleSubmit} />}
+              />
+              <Route path="/" element={<Navigate to="/declaration" />} />
+            </Routes>
           </VStack>
         </>
       )}

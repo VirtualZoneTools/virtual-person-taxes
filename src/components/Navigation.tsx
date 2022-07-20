@@ -1,15 +1,33 @@
 import { FC } from 'react'
-import { Box, Button, ButtonGroup, Flex, HStack, Icon, useColorModeValue } from '@chakra-ui/react'
+import { Link, useMatch } from 'react-router-dom'
+import { Box, Button, ButtonGroup, Icon } from '@chakra-ui/react'
 import { FaMoneyBillWave, FaPiggyBank } from 'react-icons/fa'
 
 export const Navigation: FC = () => {
-  return null
-  // <Box as="nav" boxShadow={useColorModeValue('sm', 'sm-dark')}>
-  //   <ButtonGroup variant="solid">
-  //     <Button leftIcon={<Icon as={FaMoneyBillWave} />}>დივიდენდი</Button>
-  //     <Button leftIcon={<Icon as={FaPiggyBank} />}>დეკლარაცია</Button>
-  //   </ButtonGroup>
-  // </Box>
+  const match = useMatch('/:page')
+
+  return (
+    <Box as="nav">
+      <ButtonGroup isAttached colorScheme="orange" size="sm">
+        <Button
+          as={Link}
+          to="/dividend"
+          variant={match?.params.page === 'dividend' ? 'solid' : 'outline'}
+          leftIcon={<Icon as={FaMoneyBillWave} />}
+        >
+          დივიდენდი
+        </Button>
+        <Button
+          as={Link}
+          to="/declaration"
+          variant={match?.params.page === 'declaration' ? 'solid' : 'outline'}
+          leftIcon={<Icon as={FaPiggyBank} />}
+        >
+          დეკლარაცია
+        </Button>
+      </ButtonGroup>
+    </Box>
+  )
 }
 
 export default Navigation
