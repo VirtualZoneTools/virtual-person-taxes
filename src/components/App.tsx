@@ -2,19 +2,10 @@ import { FC, useState } from 'react'
 import { Container, Icon, IconButton, Stack, VStack } from '@chakra-ui/react'
 import { BiX } from 'react-icons/bi'
 
+import { FormState } from '../utils/state'
 import TaxForm from './TaxForm'
 import Preview from './Preview'
 import Navigation from './Navigation'
-
-export interface FormState {
-  fullName: string
-  address: string
-  personalNumber: string
-  transactions: {
-    date?: Date
-    amount?: number
-  }[]
-}
 
 const App: FC = () => {
   const [formState, setFormState] = useState<FormState>()

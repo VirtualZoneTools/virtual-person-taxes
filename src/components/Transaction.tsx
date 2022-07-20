@@ -1,8 +1,13 @@
 import { FC } from 'react'
-import { DeepRequired, FieldErrorsImpl, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  DeepRequired,
+  FieldErrorsImpl,
+  UseFormRegister,
+} from 'react-hook-form'
 import { DayPicker } from 'react-day-picker'
 import FocusLock from 'react-focus-lock'
-import { format } from 'date-fns'
 import {
   Box,
   FormControl,
@@ -26,30 +31,27 @@ import {
 } from '@chakra-ui/react'
 import { BiCalendar, BiMoney, BiX } from 'react-icons/bi'
 
-import { FormState } from './App'
+import { formatDate } from '../utils/dateUtils'
+import { FormState } from '../utils/state'
 
 interface TransactionProps {
   index: number
-  transaction: FormState['transactions'][0]
-  errors: FieldErrorsImpl<DeepRequired<FormState>>
   isOnly: boolean
-  onRemove: (index: number) => void
+  errors: FieldErrorsImpl<DeepRequired<FormState>>
   register: UseFormRegister<FormState>
-  setValue: UseFormSetValue<FormState>
+  control: Control<FormState, object>
+  onRemove: (index: number) => void
 }
 
 const Transaction: FC<TransactionProps> = ({
   index,
-  errors,
   isOnly,
-  onRemove,
+  errors,
   register,
-  setValue,
-  transaction,
+  control,
+  onRemove,
 }) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
-
-  const dateInputFormProps = { ...register(`transactions.${index}.date`) }
 
   return (
     <Box
@@ -98,45 +100,48 @@ const Transaction: FC<TransactionProps> = ({
           )}
         </FormControl>
 
-        <FormControl isInvalid={!!errors.transactions?.[index]?.date}>
-          <FormLabel>თარიღი</FormLabel>
-          <Popover
-            isOpen={isOpen}
-            onOpen={onOpen}
-            onClose={onClose}
-            placement="auto"
-            closeOnBlur={true}
-          >
-            <PopoverTrigger>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<Icon as={BiCalendar} />} />
-                <Input
-                  readOnly
-                  placeholder="მაგ. Mar 19, 2022"
-                  {...dateInputFormProps}
-                  {...register(`transactions.${index}.date`)}
-                />
-              </InputGroup>
-            </PopoverTrigger>
+        <Controller
+          name={`transactions.${index}.date`}
+          control={control}
+          render={(props) => (
+            <FormControl isInvalid={!!errors.transactions?.[index]?.date}>
+              <FormLabel>თარიღი</FormLabel>
+              <Popover
+                isOpen={isOpen}
+                onOpen={onOpen}
+                onClose={onClose}
+                placement="auto"
+                closeOnBlur={true}
+              >
+                <PopoverTrigger>
+                  <InputGroup>
+                    <InputLeftElement pointerEvents="none" children={<Icon as={BiCalendar} />} />
+                    <Input
+                      readOnly
+                      defaultValue={props.field.value && formatDate(props.field.value)}
+                      placeholder="მაგ. Mar 19, 2022"
+                    />
+                  </InputGroup>
+                </PopoverTrigger>
 
-            <PopoverContent>
-              <FocusLock returnFocus persistentFocus={false}>
-                <PopoverArrow />
+                <PopoverContent>
+                  <FocusLock returnFocus persistentFocus={false}>
+                    <PopoverArrow />
 
-                <DayPicker
-                  mode="single"
-                  selected={transaction.date}
-                  onSelect={(date: Date | undefined) =>
-                    date && setValue(`transactions.${index}.date`, date)
-                  }
-                />
-              </FocusLock>
-            </PopoverContent>
-          </Popover>
-          {errors.transactions?.[index]?.date?.message && (
-            <FormErrorMessage>{errors.transactions?.[index]?.date?.message}</FormErrorMessage>
+                    <DayPicker
+                      mode="single"
+                      selected={props.field.value}
+                      onSelect={props.field.onChange}
+                    />
+                  </FocusLock>
+                </PopoverContent>
+              </Popover>
+              {props.fieldState.error && (
+                <FormErrorMessage>{props.fieldState.error.message}</FormErrorMessage>
+              )}
+            </FormControl>
           )}
-        </FormControl>
+        />
       </VStack>
     </Box>
   )

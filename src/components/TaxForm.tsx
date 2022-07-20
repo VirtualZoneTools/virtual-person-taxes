@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   Button,
@@ -21,47 +20,9 @@ import {
   BiPlusCircle,
 } from 'react-icons/bi'
 
-import { getReusableData, setReusableData } from './../utils/saveReusableData'
-import { FormState } from './App'
+import validationSchema from '../utils/validationSchema'
+import { FormState, INITIAL_STATE, setReusableData } from '../utils/state'
 import Transaction from './Transaction'
-
-const initialState: FormState = {
-  ...getReusableData(),
-  transactions: [{ date: undefined, amount: undefined }],
-}
-
-const messages = {
-  required: (field: string) => `${field}ს ველი სავალდებულოა`,
-  short: (field: string) => `${field} ძალიან მოკლეა`,
-  small: (field: string) => `${field} ძალიან ცოტაა`,
-  format: (field: string, format: string) => `${field} უნდა იყოს "${format}"-ის`,
-  length: (field: string, length: number) => `${field} უნდა იყოს ${length} სიმბოლო`,
-  typeError: (field: string, type: string) => `${field} უნდა იყოს ${type}`,
-}
-
-const schema = Yup.object().shape({
-  fullName: Yup.string()
-    .required(messages.required('სახელი'))
-    .min(2, messages.short('სახელი'))
-    .matches(/^[a-zA-Zა-ჰ]+( [a-zA-Zა-ჰ]+)+$/, 'სახელი და გვარი უნდა იყოს ერთად'),
-  address: Yup.string()
-    .required(messages.required('მისამართი'))
-    .min(2, messages.short('მისამართი')),
-  personalNumber: Yup.string()
-    .required(messages.required('პირადი ნომერი'))
-    .length(11, messages.length('პირადი ნომერი', 11)),
-  transactions: Yup.array().of(
-    Yup.object().shape({
-      date: Yup.string()
-        .required(messages.required('თარიღი'))
-        .matches(/^\w{3} \d{2}, \d{4}$/, messages.format('თარიღი', 'Mar 19, 2022')),
-      amount: Yup.number()
-        .required(messages.required('დივიდენდი'))
-        .typeError(messages.typeError('დივიდენდი', 'რიცხვი'))
-        .min(10, messages.small('დივიდენდი')),
-    }),
-  ),
-})
 
 interface TaxFormProps {
   data?: FormState
@@ -73,11 +34,10 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
     control,
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: data || initialState,
-    resolver: yupResolver(schema),
+    defaultValues: data || INITIAL_STATE,
+    resolver: yupResolver(validationSchema),
   })
   const {
     fields: transactions,
@@ -89,23 +49,9 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
   })
 
   const handleSubmitForm = (values: any) => {
-    console.log(values)
-    // TODO: stuff...
     setReusableData(values)
     onSubmit(values)
   }
-
-  // const handleInputChange = (e) => {
-  //   const { value } = e.currentTarget
-  //   setInputValue(value)
-
-  //   const date = parse(value, 'y-MM-dd', new Date())
-  //   if (isValid(date)) {
-  //     setSelected(date)
-  //   } else {
-  //     setSelected(undefined)
-  //   }
-  // }
 
   const handleRemoveTransaction = (index: number) => {
     remove(index)
@@ -148,12 +94,11 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
         <Transaction
           key={transaction.id}
           index={index}
-          errors={errors}
           isOnly={transactions.length === 1}
-          onRemove={handleRemoveTransaction}
+          errors={errors}
           register={register}
-          setValue={setValue}
-          transaction={transaction}
+          control={control}
+          onRemove={handleRemoveTransaction}
         />
       ))}
 

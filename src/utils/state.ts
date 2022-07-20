@@ -1,3 +1,18 @@
+export interface FormState {
+  fullName: string
+  address: string
+  personalNumber: string
+  transactions: {
+    date?: Date
+    amount?: number
+  }[]
+}
+
+export const INITIAL_STATE: FormState = {
+  ...getReusableData(),
+  transactions: [{ date: undefined, amount: undefined }],
+}
+
 interface StateData {
   fullName: string
   address: string
@@ -12,7 +27,7 @@ export function setReusableData({ fullName, address, personalNumber }: StateData
   localStorage.setItem('personalNumber', personalNumber)
 }
 
-export function getReusableData() {
+export function getReusableData(): StateData {
   return {
     fullName: localStorage.getItem('fullName') || '',
     address: localStorage.getItem('address') || '',
