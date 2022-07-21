@@ -1,4 +1,7 @@
 import { FC } from 'react'
+import { DayPicker } from 'react-day-picker'
+import FocusLock from 'react-focus-lock'
+import { sub } from 'date-fns'
 import {
   Control,
   Controller,
@@ -6,8 +9,6 @@ import {
   FieldErrorsImpl,
   UseFormRegister,
 } from 'react-hook-form'
-import { DayPicker } from 'react-day-picker'
-import FocusLock from 'react-focus-lock'
 import {
   Box,
   FormControl,
@@ -33,7 +34,7 @@ import { BiCalendar, BiMoney, BiX } from 'react-icons/bi'
 
 import { formatDate } from '../utils/dateUtils'
 import { FormState } from '../utils/state'
-import { sub } from 'date-fns'
+
 
 interface TransactionProps {
   index: number

@@ -41,20 +41,18 @@ const App: FC = () => {
           <Preview data={formState} />
         </Container>
       ) : (
-        <>
-          <VStack spacing="4" padding={4}>
-            <Navigation />
+        <VStack spacing="4" padding={4}>
+          <Navigation />
 
-            <Routes>
-              <Route path="/dividend" element={<div>test</div>} />
-              <Route
-                path="/declaration"
-                element={<TaxForm data={formState} onSubmit={handleSubmit} />}
-              />
-              <Route path="/" element={<Navigate to="/declaration" />} />
-            </Routes>
-          </VStack>
-        </>
+          <Routes>
+            <Route path="/dividend" element={<div>test</div>} />
+            <Route
+              path="/declaration"
+              element={<TaxForm data={formState} onSubmit={handleSubmit} />}
+            />
+            <Route path="/" element={<Navigate to="/declaration" />} />
+          </Routes>
+        </VStack>
       )}
     </>
   )
