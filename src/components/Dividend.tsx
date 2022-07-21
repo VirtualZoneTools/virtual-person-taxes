@@ -109,6 +109,7 @@ const Dividend: FC = () => {
                   mt={3}
                   textAlign="center"
                   fontSize="xs"
+                  opacity={0.4}
                 >
                   {value}
                 </SliderMark>
