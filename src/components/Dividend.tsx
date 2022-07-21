@@ -3,7 +3,6 @@ import D from 'decimal.js'
 import { Controller, useForm } from 'react-hook-form'
 import {
   Box,
-  Button,
   FormControl,
   FormLabel,
   Icon,
@@ -19,12 +18,13 @@ import {
   Stack,
   Stat,
   StatGroup,
+  StatHelpText,
   StatLabel,
   StatNumber,
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { BiCalculator, BiMoney, BiMoveHorizontal } from 'react-icons/bi'
+import { BiHappy, BiMoney, BiMoveHorizontal, BiSad } from 'react-icons/bi'
 
 interface DividendState {
   amount?: number
@@ -120,33 +120,27 @@ const Dividend: FC = () => {
 
       <Box height={2} />
 
-      <Button
-        size="sm"
-        borderRadius="sm"
-        colorScheme="blue"
-        leftIcon={<Icon as={BiCalculator} />}
-        type="submit"
-      >
-        გადასახადის გამოთვლა
-      </Button>
-
-      <Box height={2} />
-
       {dividend !== undefined && tax !== undefined && (
         <>
           <StatGroup textAlign="center">
             <Stat>
               <StatLabel>დივიდენდი 95%</StatLabel>
-              <StatNumber color="green.600">{dividend}₾</StatNumber>
+              <StatNumber color="green.500">{dividend}₾</StatNumber>
+              <StatHelpText>
+                <Icon as={BiHappy} fontSize={24} color="green.500" opacity={0.8} />
+              </StatHelpText>
             </Stat>
 
             <Stat>
               <StatLabel>გადასახადი 5%</StatLabel>
-              <StatNumber color="red.600">{tax}₾</StatNumber>
+              <StatNumber color="red.500">{tax}₾</StatNumber>
+              <StatHelpText>
+                <Icon as={BiSad} fontSize={24} color="red.500" opacity={0.8} />
+              </StatHelpText>
             </Stat>
           </StatGroup>
 
-          <Box transform={['scale(0.8)']}>
+          <Box transform={['scale(0.8)']} opacity={0.7}>
             <StatGroup textAlign="center">
               <Stat>
                 <StatLabel>ნაშთი ანგარიშზე</StatLabel>
