@@ -24,12 +24,12 @@ import validationSchema from '../utils/validationSchema'
 import { FormState, INITIAL_STATE, setReusableData } from '../utils/state'
 import Transaction from './Transaction'
 
-interface TaxFormProps {
+interface DeclarationProps {
   data?: FormState
   onSubmit: (data: any) => void
 }
 
-const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
+const Declaration: FC<DeclarationProps> = ({ data, onSubmit }) => {
   const {
     control,
     register,
@@ -48,7 +48,7 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
     name: 'transactions',
   })
 
-  const handleSubmitForm = (values: any) => {
+  const handleSubmitForm = (values: FormState) => {
     setReusableData(values)
     onSubmit(values)
   }
@@ -130,4 +130,4 @@ const TaxForm: FC<TaxFormProps> = ({ data, onSubmit }) => {
   )
 }
 
-export default TaxForm
+export default Declaration
