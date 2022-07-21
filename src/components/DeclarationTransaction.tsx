@@ -35,8 +35,7 @@ import { BiCalendar, BiMoney, BiX } from 'react-icons/bi'
 import { formatDate } from '../utils/dateUtils'
 import { FormState } from '../utils/state'
 
-
-interface TransactionProps {
+interface DeclarationTransactionProps {
   index: number
   isOnly: boolean
   errors: FieldErrorsImpl<DeepRequired<FormState>>
@@ -45,7 +44,7 @@ interface TransactionProps {
   onRemove: (index: number) => void
 }
 
-const Transaction: FC<TransactionProps> = ({
+const DeclarationTransaction: FC<DeclarationTransactionProps> = ({
   index,
   isOnly,
   errors,
@@ -154,4 +153,4 @@ const Transaction: FC<TransactionProps> = ({
   )
 }
 
-export default Transaction
+export default DeclarationTransaction

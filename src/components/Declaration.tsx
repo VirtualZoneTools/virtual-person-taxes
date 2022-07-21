@@ -22,7 +22,7 @@ import {
 
 import validationSchema from '../utils/validationSchema'
 import { FormState, INITIAL_STATE, setReusableData } from '../utils/state'
-import Transaction from './Transaction'
+import DeclarationTransaction from './DeclarationTransaction'
 
 interface DeclarationProps {
   data?: FormState
@@ -91,7 +91,7 @@ const Declaration: FC<DeclarationProps> = ({ data, onSubmit }) => {
       </FormControl>
 
       {transactions.map((transaction, index) => (
-        <Transaction
+        <DeclarationTransaction
           key={transaction.id}
           index={index}
           isOnly={transactions.length === 1}
