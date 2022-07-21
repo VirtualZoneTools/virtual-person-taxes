@@ -8,8 +8,14 @@ export interface FormState {
   }[]
 }
 
+const INITIAL_DATA = {
+  fullName: '',
+  address: '',
+  personalNumber: '',
+}
+
 export const INITIAL_STATE: FormState = {
-  ...getReusableData(),
+  ...(getReusableData() || INITIAL_DATA),
   transactions: [{ date: undefined, amount: undefined }],
 }
 
@@ -19,20 +25,20 @@ interface StateData {
   personalNumber: string
 }
 
-export function setReusableData({ fullName, address, personalNumber }: StateData) {
-  if (getReusableData().fullName) return
-
-  localStorage.setItem('fullName', fullName)
-  localStorage.setItem('address', address)
-  localStorage.setItem('personalNumber', personalNumber)
+export function setReusableData(data: StateData) {
+  localStorage.setItem(
+    '_data',
+    JSON.stringify({
+      fullName: data.fullName,
+      address: data.address,
+      personalNumber: data.personalNumber,
+    }),
+  )
 }
 
-export function getReusableData(): StateData {
-  return {
-    fullName: localStorage.getItem('fullName') || '',
-    address: localStorage.getItem('address') || '',
-    personalNumber: localStorage.getItem('personalNumber') || '',
-  }
+export function getReusableData(): StateData | undefined {
+  const data = localStorage.getItem('_data')
+  if (data) return JSON.parse(data)
 }
 
 export function clearReusableData() {
