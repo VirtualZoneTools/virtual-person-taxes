@@ -33,14 +33,14 @@ import {
 import { BiCalendar, BiMoney, BiX } from 'react-icons/bi'
 
 import { formatDate } from '../utils/dateUtils'
-import { FormState } from '../utils/state'
+import { IDeclaration } from '../contexts/DeclarationContext'
 
 interface DeclarationTransactionProps {
   index: number
   isOnly: boolean
-  errors: FieldErrorsImpl<DeepRequired<FormState>>
-  register: UseFormRegister<FormState>
-  control: Control<FormState, object>
+  errors: FieldErrorsImpl<DeepRequired<IDeclaration>>
+  register: UseFormRegister<IDeclaration>
+  control: Control<IDeclaration, object>
   onRemove: (index: number) => void
 }
 

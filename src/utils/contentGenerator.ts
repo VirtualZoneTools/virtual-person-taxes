@@ -1,10 +1,15 @@
 import { formatDate } from './dateUtils'
-import { FormState } from './state'
+import { IDeclaration } from '../contexts/DeclarationContext'
 
 const dividendTax = (x: number) => (x / 95) * 5
 const input = (val: string | number) => `<input value="${val}"/>`
 
-const generate = function ({ fullName, address, personalNumber, transactions }: FormState): string {
+const generate = function ({
+  fullName,
+  address,
+  personalNumber,
+  transactions,
+}: IDeclaration): string {
   const nonEmptyTransactions = transactions
     .filter((t) => Boolean(t.amount) && Boolean(t.date))
     .map((t) => ({ amount: t.amount!, date: t.date! }))

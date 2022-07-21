@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react'
-import D from 'decimal.js'
 import { Controller, useForm } from 'react-hook-form'
+import D from 'decimal.js'
 import {
   Box,
   FormControl,
@@ -23,8 +23,11 @@ import {
   StatNumber,
   Tooltip,
   useColorModeValue,
+  VStack,
 } from '@chakra-ui/react'
 import { BiHappy, BiMoney, BiMoveHorizontal, BiSad } from 'react-icons/bi'
+
+import Navigation from './Navigation'
 
 interface DividendState {
   amount?: number
@@ -64,94 +67,98 @@ const Dividend: FC = () => {
   }, [amount, mod])
 
   return (
-    <Stack spacing="4" minWidth="xs">
-      <FormControl>
-        <FormLabel>გასატანი თანხა</FormLabel>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" children={<Icon as={BiMoney} />} />
-          <Input type="number" placeholder="მაგ. 10000" {...register('amount')} min="0" />
-          <InputRightAddon>₾</InputRightAddon>
-        </InputGroup>
-      </FormControl>
+    <VStack spacing="4" padding={4}>
+      <Navigation />
 
-      <Controller
-        name="mod"
-        control={control}
-        render={(props) => (
-          <FormControl>
-            <FormLabel>დანაშთვა</FormLabel>
+      <Stack spacing="4" minWidth="xs">
+        <FormControl>
+          <FormLabel>გასატანი თანხა</FormLabel>
+          <InputGroup>
+            <InputLeftElement pointerEvents="none" children={<Icon as={BiMoney} />} />
+            <Input type="number" placeholder="მაგ. 10000" {...register('amount')} min="0" />
+            <InputRightAddon>₾</InputRightAddon>
+          </InputGroup>
+        </FormControl>
 
-            <Slider
-              colorScheme="blue"
-              aria-label="slider-ex-4"
-              defaultValue={40}
-              min={0}
-              step={4}
-              max={100}
-              onChange={props.field.onChange}
-            >
-              <SliderTrack>
-                <SliderFilledTrack />
-              </SliderTrack>
+        <Controller
+          name="mod"
+          control={control}
+          render={(props) => (
+            <FormControl>
+              <FormLabel>დანაშთვა</FormLabel>
 
-              <Tooltip isOpen placement="top" offset={[0, 2]} label={`${props.field.value}₾`}>
-                <SliderThumb boxSize={6} bg={sliderThumbBgColor} color={sliderThumbIconColor}>
-                  <Icon as={BiMoveHorizontal} />
-                </SliderThumb>
-              </Tooltip>
+              <Slider
+                colorScheme="blue"
+                aria-label="slider-ex-4"
+                defaultValue={40}
+                min={0}
+                step={4}
+                max={100}
+                onChange={props.field.onChange}
+              >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
 
-              {[0, 20, 40, 60, 80, 100].map((value) => (
-                <SliderMark
-                  key={value}
-                  value={value}
-                  width={6}
-                  ml={-3}
-                  mt={3}
-                  textAlign="center"
-                  fontSize="xs"
-                  opacity={0.4}
-                >
-                  {value}
-                </SliderMark>
-              ))}
-            </Slider>
-          </FormControl>
-        )}
-      />
+                <Tooltip isOpen placement="top" offset={[0, 2]} label={`${props.field.value}₾`}>
+                  <SliderThumb boxSize={6} bg={sliderThumbBgColor} color={sliderThumbIconColor}>
+                    <Icon as={BiMoveHorizontal} />
+                  </SliderThumb>
+                </Tooltip>
 
-      <Box height={2} />
+                {[0, 20, 40, 60, 80, 100].map((value) => (
+                  <SliderMark
+                    key={value}
+                    value={value}
+                    width={6}
+                    ml={-3}
+                    mt={3}
+                    textAlign="center"
+                    fontSize="xs"
+                    opacity={0.4}
+                  >
+                    {value}
+                  </SliderMark>
+                ))}
+              </Slider>
+            </FormControl>
+          )}
+        />
 
-      {dividend !== undefined && tax !== undefined && (
-        <>
-          <StatGroup textAlign="center">
-            <Stat>
-              <StatLabel>დივიდენდი 95%</StatLabel>
-              <StatNumber color="green.500">{dividend}₾</StatNumber>
-              <StatHelpText>
-                <Icon as={BiHappy} fontSize={24} color="green.500" opacity={0.8} />
-              </StatHelpText>
-            </Stat>
+        <Box height={2} />
 
-            <Stat>
-              <StatLabel>გადასახადი 5%</StatLabel>
-              <StatNumber color="red.500">{tax}₾</StatNumber>
-              <StatHelpText>
-                <Icon as={BiSad} fontSize={24} color="red.500" opacity={0.8} />
-              </StatHelpText>
-            </Stat>
-          </StatGroup>
-
-          <Box transform={['scale(0.8)']} opacity={0.7}>
+        {dividend !== undefined && tax !== undefined && (
+          <>
             <StatGroup textAlign="center">
               <Stat>
-                <StatLabel>ნაშთი ანგარიშზე</StatLabel>
-                <StatNumber>{remaining}₾</StatNumber>
+                <StatLabel>დივიდენდი 95%</StatLabel>
+                <StatNumber color="green.500">{dividend}₾</StatNumber>
+                <StatHelpText>
+                  <Icon as={BiHappy} fontSize={24} color="green.500" opacity={0.8} />
+                </StatHelpText>
+              </Stat>
+
+              <Stat>
+                <StatLabel>გადასახადი 5%</StatLabel>
+                <StatNumber color="red.500">{tax}₾</StatNumber>
+                <StatHelpText>
+                  <Icon as={BiSad} fontSize={24} color="red.500" opacity={0.8} />
+                </StatHelpText>
               </Stat>
             </StatGroup>
-          </Box>
-        </>
-      )}
-    </Stack>
+
+            <Box transform={['scale(0.8)']} opacity={0.7}>
+              <StatGroup textAlign="center">
+                <Stat>
+                  <StatLabel>ნაშთი ანგარიშზე</StatLabel>
+                  <StatNumber>{remaining}₾</StatNumber>
+                </Stat>
+              </StatGroup>
+            </Box>
+          </>
+        )}
+      </Stack>
+    </VStack>
   )
 }
 
