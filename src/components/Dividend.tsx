@@ -28,6 +28,7 @@ import {
 import { BiHappy, BiMoney, BiMoveHorizontal, BiSad } from 'react-icons/bi'
 
 import Navigation from './Navigation'
+import Disclaimer from './Disclaimer'
 
 interface DividendState {
   amount?: number
@@ -157,6 +158,8 @@ const Dividend: FC = () => {
             </Box>
           </>
         )}
+
+        <Disclaimer />
       </Stack>
     </VStack>
   )

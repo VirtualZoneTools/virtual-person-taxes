@@ -21,9 +21,10 @@ import {
   BiPlusCircle,
 } from 'react-icons/bi'
 
-import validationSchema from '../utils/validationSchema'
-import DeclarationTransaction from './DeclarationTransaction'
 import Navigation from './Navigation'
+import Disclaimer from './Disclaimer'
+import DeclarationTransaction from './DeclarationTransaction'
+import validationSchema from '../utils/validationSchema'
 import { IDeclaration, useDeclaration } from '../contexts/DeclarationContext'
 
 interface DeclarationProps {
@@ -132,6 +133,8 @@ const Declaration: FC<DeclarationProps> = ({ onSubmit }) => {
             ინსტრუქციების ჩვენება
           </Button>
         </Stack>
+
+        <Disclaimer />
       </Stack>
     </VStack>
   )
