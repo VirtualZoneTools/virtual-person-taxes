@@ -1,19 +1,32 @@
-const dividendTax = x => (x / 95) * 5
-const input = val => `<input value="${val}"/>`
-const generate = function({ fullName, address, personalNumber, transactions }) {
-  const allDivident = transactions.reduce((acc, x) => acc + x.amount, 0)
+import { formatDate } from './dateUtils'
+import { IDeclaration } from '../contexts/DeclarationContext'
+
+const dividendTax = (x: number) => (x / 95) * 5
+const input = (val: string | number) => `<input value="${val}"/>`
+
+const generate = function ({
+  fullName,
+  address,
+  personalNumber,
+  transactions,
+}: IDeclaration): string {
+  const nonEmptyTransactions = transactions
+    .filter((t) => Boolean(t.amount) && Boolean(t.date))
+    .map((t) => ({ amount: t.amount!, date: t.date! }))
+
+  const allDivident = nonEmptyTransactions.reduce((acc, x) => acc + x.amount, 0)
   const allDividentTax = dividendTax(allDivident)
   const allDividentPlusTaxSum = allDivident + allDividentTax
-  const transactionOverviewStr = transactions
+  const transactionOverviewStr = nonEmptyTransactions
     .map(({ amount, date }) =>
       `
-1. ${date} - ${amount + dividendTax(amount)} ლარიდან, ${amount} არის დივიდენდი, ხოლო ${dividendTax(
-        amount,
-      )} გადასახადი.
+1. ${formatDate(date)} - ${
+        amount + dividendTax(amount)
+      }₾-დან, ${amount}₾ არის დივიდენდი, ხოლო ${dividendTax(amount)}₾ გადასახადი.
 `.trim(),
     )
     .join('\n')
-  const transactionsDeclarationStepsStr = transactions
+  const transactionsDeclarationStepsStr = nonEmptyTransactions
     .map(({ amount, date }) =>
       `
 1. ველში **განაცემის მიმღების საიდენტ. ნომერი** ჩაწერე ${input(personalNumber)}
@@ -25,24 +38,31 @@ const generate = function({ fullName, address, personalNumber, transactions }) {
 1. ველში **განაცემის სახე** აირჩიე **${input('დივიდენდი')}**
 1. ველში **განაცემის თანხა(ლარი)** ჩაწერე **${input(amount + dividendTax(amount))}**
 1. ველში **შეღავათის ოდენობა** ჩაწერე **${input(0)}**
-1. ველში **გაცემის თარიღი** შეიყვანე თარიღი **${input(date)}**
+1. ველში **გაცემის თარიღი** შეიყვანე თარიღი **${input(formatDate(date))}**
 1. ველში **წყაროსთან დასაკავებელი გადასახადის განაკვეთი** აირჩიე **${input(5)}**
 1. ველში **დაკავებული გადასახადი (ლარი)** ჩაწერე **${input(dividendTax(amount))}**
 1. დააჭირე ღილასკს დამატება, იკონით **+**
 `.trim(),
     )
     .join('\n')
+
   return `
-# მიმოხილვა
+
+
+##### მიმოხილვა
 ტრანზაქციები რომლის დეკლარირებასაც ვახდენთ:
 
 ${transactionOverviewStr}
 
-# დეკლარაციის შევსება
-1. გადადი გვერდზე eservices.rs.ge და გაიარე ავტორიზებას
+---
+
+##### დეკლარაციის შევსება
+1. გადადი გვერდზე [eservices.rs.ge](https://eservices.rs.ge/) და გაიარე ავტორიზებას
 1. გადადი გვერდზე __დეკლარაციები__
 
-## მოგება
+---
+
+##### მოგება
 1. გადადი გვერდზე **ყოველთვიური > მოგების გადასახადი**
 1. დაკლიკე ღილაკზე **ახალი დეკლარაცია**
 1. ველში **ეკონომიკური საქმიანობის (NACE) კოდი სრულად** შეიყვანე **${input(
@@ -58,10 +78,9 @@ ${transactionOverviewStr}
 1. დასქროლე გვერდის ბოლოშ და დააჭირე ღილაკს **შენახვა**
 1. ასქროლე სულ ზემოთ და დააჭირე გათიშვის ღილაკს იკონით **x**
 
-##  განაცემთა ინფორმაცია
-*აღარ ივსება *01/01/2020*-დან.*
+---
 
-## საშემოსავლო
+##### საშემოსავლო
 1. გადავდივართ გვერდზე **ყოველთვიური > საშემოსავლო (გადახდის წყაროსთან დაკავებული გადასახადი)**
 1. დაკლიკე ღილაკზე **ახალი დეკლარაცია**
 1. **გადამხდელის ტიპი** აირჩიე **სხვა**
@@ -74,7 +93,14 @@ ${transactionsDeclarationStepsStr}
 1. დასქროლე გვერდის ბოლოში და დააჭირე ღილაკს **შენახვა**
 1. ასქროლე სულ ზემოთ და დააჭირე გათიშვის ღილაკს იკონით **x**
 
-# დეკლარაციების წარდგენა
+---
+
+#####  განაცემთა ინფორმაცია
+> აღარ ივსება *01/01/2020*-დან.
+
+---
+
+##### დეკლარაციების წარდგენა
 1. გადავდივარ გვერდზე **სტატისტიკა > გადასაგზავნი დეკლარაციები**
 1. შედიხარ ყველა დელკარაციაში
 1. აკლიკავ **შემდეგს** მანამ სანამ არ გამოჩნდება ღილაკი **გადაგზავნა**
