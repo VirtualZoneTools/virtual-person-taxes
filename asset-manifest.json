@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/virtual-person-taxes/static/css/main.200c30b7.css",
-    "main.js": "/virtual-person-taxes/static/js/main.d5138ae4.js",
+    "main.js": "/virtual-person-taxes/static/js/main.9bce976e.js",
     "index.html": "/virtual-person-taxes/index.html",
     "main.200c30b7.css.map": "/virtual-person-taxes/static/css/main.200c30b7.css.map",
-    "main.d5138ae4.js.map": "/virtual-person-taxes/static/js/main.d5138ae4.js.map"
+    "main.9bce976e.js.map": "/virtual-person-taxes/static/js/main.9bce976e.js.map"
   },
   "entrypoints": [
     "static/css/main.200c30b7.css",
-    "static/js/main.d5138ae4.js"
+    "static/js/main.9bce976e.js"
   ]
 }
